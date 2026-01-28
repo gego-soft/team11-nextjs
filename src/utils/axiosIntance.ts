@@ -7,10 +7,10 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
-// Request interceptor
+
 api.interceptors.request.use(
   (config) => {
-    const accessToken = Cookies.get("accessToken");
+    const accessToken = Cookies.get("token");
 
     if (accessToken) {
       config.headers = config.headers || {};
