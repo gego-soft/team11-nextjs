@@ -1,0 +1,102 @@
+@layer components {
+  .contact-layout {
+    @apply grid mt-8 gap-12;
+    grid-template-columns: 1.5fr 1fr;
+  }
+
+  .contact-form-section h2,
+  .contact-info-section h2 {
+    @apply text-[1.5rem] font-bold text-gray-800 mb-6;
+  }
+
+  /* ================= Form ================= */
+
+  .contact-form {
+    @apply bg-gray-50 p-8 rounded-xl border border-gray-200;
+  }
+
+  .form-group {
+    @apply mb-6;
+  }
+
+  .form-group label {
+    @apply block font-semibold text-gray-700 mb-2 text-[0.95rem];
+  }
+
+  .form-group input,
+  .form-group textarea {
+    @apply w-full px-4 py-3.5 border-2 border-gray-200 rounded-lg text-base bg-white transition-all duration-300;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    @apply outline-none border-indigo-500;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-group textarea {
+    @apply resize-y min-h-30;
+  }
+
+  .submit-btn {
+    @apply w-full py-4 px-8 text-white text-[1.1rem] font-bold rounded-lg cursor-pointer transition-all duration-300 bg-gradient-to-br from-indigo-500 to-purple-600;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  }
+
+  /* ================= Info ================= */
+
+  .contact-info-section {
+    @apply flex flex-col gap-6;
+  }
+
+  .contact-info-item {
+    @apply flex gap-4 p-6 bg-gray-50 rounded-xl border border-gray-200 transition-all duration-300;
+  }
+
+  .contact-info-item:hover {
+    transform: translateX(5px);
+    border-color: #667eea;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+  }
+
+  .contact-icon {
+    @apply text-[2rem] w-12.5 h-12.5 flex items-center justify-center rounded-xl shrink-0 bg-linear-to-br from-indigo-500 to-purple-600;
+  }
+
+  .contact-details h3 {
+    @apply text-[1.1rem] font-bold text-gray-800 mb-2;
+  }
+
+  .contact-details p {
+    @apply text-[0.95rem] text-gray-500 mb-1 leading-[1.6];
+  }
+
+  .contact-details .timing {
+    @apply text-[0.85rem] text-gray-400 italic;
+  }
+
+  /* ============ Mobile (≤768px) ============ */
+
+  @media (max-width: 768px) {
+    .contact-layout {
+      @apply gap-8;
+      grid-template-columns: 1fr;
+    }
+
+    .contact-form {
+      @apply p-6;
+    }
+
+    .contact-info-item {
+      @apply p-4;
+    }
+
+    .contact-icon {
+      @apply w-10 h-10 text-[1.5rem];
+    }
+  }
+}

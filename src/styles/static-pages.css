@@ -1,0 +1,47 @@
+@layer components {
+    .static-page {
+        @apply min-h-[calc(100vh-200px)] px-8 py-16 bg-linear-to-b from-white to-gray-50;
+    }
+
+    .static-page-container {
+        @apply mx-auto max-w-250 rounded-[20px] bg-white p-12;
+
+        /* Custom shadow (cannot use @apply for this) */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .static-page-container h1 {
+        @apply mb-8 border-b-[3px] border-indigo-500 pb-4 text-[2.5rem] font-extrabold bg-linear-to-br from-indigo-500 to-purple-600 bg-clip-text text-transparent;
+    }
+
+    .static-page-content {
+        @apply text-gray-600 leading-[1.8];
+    }
+
+    .static-page-content h2 {
+        @apply mt-8 mb-4 text-[1.5rem] font-bold text-gray-800;
+    }
+
+    .static-page-content p {
+        @apply mb-6 text-base;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+        .static-page {
+            @apply px-4 py-8;
+        }
+
+        .static-page-container {
+            @apply p-6;
+        }
+
+        .static-page-container h1 {
+            @apply text-[2rem];
+        }
+
+        .static-page-content h2 {
+            @apply text-[1.3rem];
+        }
+    }
+}
