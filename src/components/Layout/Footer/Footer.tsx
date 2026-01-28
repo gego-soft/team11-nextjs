@@ -30,9 +30,9 @@ export default function Footer() {
       <div className="absolute top-0 left-0 right-0 h-24 bg-linear-to-b from-white/5 to-transparent clip-path-polygon" />
 
       <div className="relative z-10 pt-16 px-8 pb-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-12 mb-12">
+        <div className="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-12 mb-12">
           {/* Brand Section */}
-          <div className="lg:col-span-2 md:col-span-2 pr-8">
+          <div className=" ">
             <div className="mb-4">
               <h2 className="bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent text-3xl font-extrabold mb-1 tracking-tight">
                 Team 11
