@@ -2,8 +2,8 @@
 import { FormikProvider, useFormik } from "formik";
 import Button from "../Button";
 import { RegistrationSchema } from "@/validations/Auth/RegistrationSchema";
-import { FormValues, LoginFormValues } from "@/types/auth/authTypes";
-import { registrationCall } from "@/services/auth/authService";
+import { FormValues, LoginFormValues } from "@/types/Auth/authTypes";
+import { registrationCall } from "@/services/Auth/authService";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import FormInputField from "../Common/Forms/FormInputField";
@@ -178,7 +178,7 @@ export default function Registration({ onClose }: RegistrationProps) {
                 type="password"
                 name="password_confirmation"
                 label="Confirm Password"
-                placeholder="Enter your password"
+                placeholder="Enter your confirm password"
                 required
               />
 
@@ -186,7 +186,7 @@ export default function Registration({ onClose }: RegistrationProps) {
                 name="referral_name"
                 label="Referral Name (optional)"
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Enter your referral name"
               />
 
               {/* Terms of Service */}

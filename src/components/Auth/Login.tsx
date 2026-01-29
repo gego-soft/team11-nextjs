@@ -3,23 +3,30 @@ import { FormikProvider, useFormik } from "formik";
 import { useState } from "react";
 import Button from "../Button";
 import { LoginvalidationSchema } from "@/validations/Auth/RegistrationSchema";
-import { LoginFormValues } from "@/types/auth/authTypes";
+import { LoginFormValues } from "@/types/Auth/authTypes";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { loginCall } from "@/services/auth/authService";
+import { loginCall } from "@/services/Auth/authService";
 import Cookies from "js-cookie";
 import FormInputField from "../Common/Forms/FormInputField";
 import { mapServerErrors } from "@/utils/mapServerErrors";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 
 interface LoginProps {
   onClose: () => void;
   onSwitchToRegister: () => void;
+  onSwitchToForgot: () => void;
 }
 
 type LoginTab = "email" | "mobile";
 
-export default function Login({ onClose, onSwitchToRegister }: LoginProps) {
+export default function Login({
+  onClose,
+  onSwitchToRegister,
+  onSwitchToForgot,
+}: LoginProps) {
   const [activeTab, setActiveTab] = useState<LoginTab>("email");
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   const formik = useFormik<LoginFormValues>({
     initialValues: {
@@ -83,6 +90,18 @@ export default function Login({ onClose, onSwitchToRegister }: LoginProps) {
     } else {
       formik.setFieldValue("email", "");
     }
+  };
+
+  // Handle forgot password click
+  const handleForgotPasswordClick = () => {
+    onClose(); // Close login modal
+    setShowForgotPassword(true); // Open forgot password modal
+    onSwitchToForgot();
+  };
+
+  // Handle forgot password modal close
+  const handleForgotPasswordClose = () => {
+    setShowForgotPassword(false);
   };
 
   return (
@@ -167,11 +186,8 @@ export default function Login({ onClose, onSwitchToRegister }: LoginProps) {
                 <div className="flex justify-end items-center mb-2">
                   <button
                     type="button"
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                    onClick={() => {
-                      // You can implement forgot password logic here
-                      console.log("Forgot password clicked");
-                    }}
+                    className="text-blue-600 hover:text-blue-800 text-sm font-medium cursor-pointer"
+                    onClick={handleForgotPasswordClick}
                   >
                     Forgot Password?
                   </button>
@@ -221,6 +237,12 @@ export default function Login({ onClose, onSwitchToRegister }: LoginProps) {
           </div>
         </div>
       </div>
+      {showForgotPassword && (
+        <ForgotPasswordModal
+          onClose={handleForgotPasswordClose}
+          onSwitchToLogin={onSwitchToRegister}
+        />
+      )}
     </FormikProvider>
   );
 }

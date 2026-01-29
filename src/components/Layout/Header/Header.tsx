@@ -6,11 +6,11 @@ import Image from "next/image";
 import Button from "../../Button";
 import Registration from "@/components/Auth/Registration";
 import Login from "@/components/Auth/Login";
+import ForgotPasswordModal from "@/components/Auth/ForgotPasswordModal";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showRegistration, setShowRegistration] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+  const [activeModal, setActiveModal] = useState<"login" | "register" | "forgot" | null>(null);
 
   const isAuthenticated = false;
 
@@ -21,8 +21,6 @@ export default function Header() {
   const handleLogout = () => {
     setShowDropdown(false);
   };
-
-
 
   return (
     <>
@@ -77,13 +75,13 @@ export default function Header() {
               <>
                 <Button
                   variant="outline"
-                  onClick={() => setShowRegistration(true)}
+                  onClick={() => setActiveModal("register")}
                 >
                   SIGN UP
                 </Button>
                 <Button
                   variant="primary"
-                  onClick={() => setShowLogin(true)} // You can implement login modal similarly
+                  onClick={() => setActiveModal("login")}
                 >
                   LOGIN
                 </Button>
@@ -93,18 +91,26 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Registration Modal */}
-      {showRegistration && (
-        <Registration onClose={() => setShowRegistration(false)} />
+      {/* Modals */}
+      {activeModal === "login" && (
+        <Login
+          onClose={() => setActiveModal(null)}
+          onSwitchToRegister={() => setActiveModal("register")}
+          onSwitchToForgot={() => setActiveModal("forgot")}
+        />
       )}
 
-      {showLogin && (
-        <Login
-          onClose={() => setShowLogin(false)}
-          onSwitchToRegister={() => {
-            setShowLogin(false);
-            setShowRegistration(true);
-          }}
+      {activeModal === "register" && (
+        <Registration
+          onClose={() => setActiveModal(null)}
+          // onSwitchToLogin={() => setActiveModal("login")}
+        />
+      )}
+
+      {activeModal === "forgot" && (
+        <ForgotPasswordModal
+          onClose={() => setActiveModal(null)}
+          onSwitchToLogin={() => setActiveModal("login")}
         />
       )}
     </>

@@ -1,12 +1,13 @@
 "use client";
-
 import axios from "axios";
 import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  headers: {
+    "X-API-Key": process.env.NEXT_PUBLIC_API_KEY,
+  },
 });
-
 
 api.interceptors.request.use(
   (config) => {

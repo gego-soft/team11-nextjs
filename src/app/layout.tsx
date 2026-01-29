@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Layout/Header/Header";
 import Footer from "../components/Layout/Footer/Footer";
 import { ToastContainer } from "react-toastify";
+import Sidebar from "@/components/Sidebar/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,13 @@ export default function RootLayout({
       >
         <Header />
         <ToastContainer position="top-right" autoClose={3000} />
-        {children}
+
+        <div className="flex min-h-[calc(100vh-72px)]">
+          {/* <Sidebar /> */}
+
+          <main className="flex-1">{children}</main>
+        </div>
+
         <Footer />
       </body>
     </html>
