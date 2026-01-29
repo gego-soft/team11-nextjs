@@ -1,30 +1,46 @@
 "use client";
+import Button from "@/components/Button";
+import FormInputField from "@/components/Common/Forms/FormInputField";
 import { contactus } from "@/services/Auth/contactService";
-import { useState } from "react";
+import { ContactUsValues } from "@/types/Auth/contactDetails";
+import { mapServerErrors } from "@/utils/mapServerErrors";
+import { ContactUsSchema } from "@/validations/Auth/ContactUsSchema";
+import { AxiosError } from "axios";
+import { FormikProvider, useFormik } from "formik";
+import { toast } from "react-toastify";
 
 function ContactUs() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
+  const formik = useFormik<ContactUsValues>({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    },
+    validationSchema: ContactUsSchema,
+    onSubmit: async (values, { setErrors, resetForm, setSubmitting }) => {
+      try {
+        const response = await contactus(values);
+        resetForm();
+        toast.success(
+          response.data.message || "Contact submitted Successfully",
+        );
+        setSubmitting(false);
+      } catch (error) {
+        const err = error as AxiosError<{
+          message: string;
+          errors?: Record<string, string[]>;
+        }>;
+        const mappedErrors = mapServerErrors<ContactUsValues>(
+          err.response?.data?.errors,
+        );
+
+        setErrors(mappedErrors);
+        toast.error(err.response?.data.message || "Contact submission Failed");
+      }
+    },
   });
-
-  const handleChange = (e: any) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    // Handle form submission here
-    const res = await contactus(formData);
-    console.log("Form submitted:", res);
-    alert("Thank you for contacting us! We will get back to you soon.");
-    setFormData({ name: "", email: "", subject: "", message: "" });
-  };
 
   return (
     <div className="static-page">
@@ -35,103 +51,107 @@ function ContactUs() {
             We'd love to hear from you! Fill out the form below and our team
             will get back to you as soon as possible.
           </p>
-
-          <div className="contact-layout">
-            <div className="contact-form-section">
-              <h2>Send us a Message</h2>
-              <form className="contact-form" onSubmit={handleSubmit}>
+        </div>
+        <div className="contact-layout">
+          <div className="contact-form-section">
+            <h2>Send us a Message</h2>
+            <FormikProvider value={formik}>
+              <div className="contact-form">
                 <div className="form-group">
-                  <label htmlFor="name">Full Name *</label>
-                  <input
-                    type="text"
-                    id="name"
+                  <FormInputField
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Enter your full name"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="email">Email Address *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="subject">Subject *</label>
-                  <input
+                    label="Name"
                     type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    placeholder="What is this regarding?"
+                    placeholder="Enter your name"
+                    required
                   />
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="message">Message *</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={6}
-                    placeholder="Tell us more about your inquiry..."
-                  ></textarea>
+                  <FormInputField
+                    name="email"
+                    label="Email"
+                    type="email"
+                    placeholder="Enter your email address"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <FormInputField
+                    label="Phone Number"
+                    name="phone"
+                    type="tel"
+                    maxLength={10}
+                  />
+                </div>
+                <div className="form-group">
+                  <FormInputField
+                    name="subject"
+                    label="Subject"
+                    type="text"
+                    placeholder="Enter subject"
+                  />
                 </div>
 
-                <button type="submit" className="submit-btn">
-                  Send Message
-                </button>
-              </form>
+                <div className="form-group">
+                  <FormInputField
+                    name="message"
+                    label="Message"
+                    type="textarea"
+                    placeholder="Enter your message"
+                    required
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="submit"
+                  onClick={() => formik.handleSubmit()}
+                  disabled={formik.isSubmitting || !formik.isValid}
+                >
+                  {formik.isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </div>
+            </FormikProvider>
+          </div>
+
+          <div className="contact-info-section">
+            <h2>Get in Touch</h2>
+
+            <div className="contact-info-item">
+              <div className="contact-icon">📧</div>
+              <div className="contact-details">
+                <h3>Email</h3>
+                <p>support@team11fantasy.com</p>
+              </div>
             </div>
 
-            <div className="contact-info-section">
-              <h2>Get in Touch</h2>
-
-              <div className="contact-info-item">
-                <div className="contact-icon">📧</div>
-                <div className="contact-details">
-                  <h3>Email</h3>
-                  <p>support@team11fantasy.com</p>
-                </div>
+            <div className="contact-info-item">
+              <div className="contact-icon">📞</div>
+              <div className="contact-details">
+                <h3>Phone</h3>
+                <p>+91 1234567890</p>
+                <p className="timing">Mon-Fri: 9:00 AM - 6:00 PM</p>
               </div>
+            </div>
 
-              <div className="contact-info-item">
-                <div className="contact-icon">📞</div>
-                <div className="contact-details">
-                  <h3>Phone</h3>
-                  <p>+91 1234567890</p>
-                  <p className="timing">Mon-Fri: 9:00 AM - 6:00 PM</p>
-                </div>
+            <div className="contact-info-item">
+              <div className="contact-icon">📍</div>
+              <div className="contact-details">
+                <h3>Office Address</h3>
+                <p>Team 11 Fantasy Cricket</p>
+                <p>123 Business Park, Tech City</p>
+                <p>Bangalore, Karnataka 560001</p>
               </div>
+            </div>
 
-              <div className="contact-info-item">
-                <div className="contact-icon">📍</div>
-                <div className="contact-details">
-                  <h3>Office Address</h3>
-                  <p>Team 11 Fantasy Cricket</p>
-                  <p>123 Business Park, Tech City</p>
-                  <p>Bangalore, Karnataka 560001</p>
-                </div>
-              </div>
-
-              <div className="contact-info-item">
-                <div className="contact-icon">⏰</div>
-                <div className="contact-details">
-                  <h3>Business Hours</h3>
-                  <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: 10:00 AM - 4:00 PM</p>
-                  <p>Sunday: Closed</p>
-                </div>
+            <div className="contact-info-item">
+              <div className="contact-icon">⏰</div>
+              <div className="contact-details">
+                <h3>Business Hours</h3>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                <p>Saturday: 10:00 AM - 4:00 PM</p>
+                <p>Sunday: Closed</p>
               </div>
             </div>
           </div>

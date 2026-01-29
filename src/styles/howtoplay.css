@@ -1,0 +1,307 @@
+@layer components {
+    .how-to-play {
+        @apply px-8 py-20 bg-linear-to-b from-white to-gray-50;
+    }
+
+    .section-container {
+        @apply mx-auto max-w-350;
+    }
+
+    .section-header {
+        @apply text-center mb-16;
+    }
+
+    .section-title {
+        @apply text-[2.8rem] font-extrabold text-gray-800 mb-3;
+    }
+
+    .section-subtitle {
+        @apply text-[1.2rem] text-gray-500 font-medium;
+    }
+
+    /* ================= Steps ================= */
+
+    .steps-container {
+        @apply flex flex-wrap justify-center items-center gap-8 mx-auto mb-16 max-w-300;
+    }
+
+    .step-card {
+        @apply relative flex-1 min-w-62.5 max-w-75 bg-white rounded-[20px] p-8 border-2 border-gray-200 transition-all;
+    }
+
+    .step-card::before {
+        content: '';
+        position: absolute;
+        inset: -2px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        z-index: -1;
+        opacity: 0;
+        transition: .4s;
+    }
+
+    .step-card:hover::before {
+        opacity: 1;
+    }
+
+    .step-card:hover {
+        transform: translateY(-10px);
+        border-color: transparent;
+        box-shadow: 0 20px 40px rgba(102, 126, 234, .2);
+    }
+
+    .step-card:hover h3,
+    .step-card:hover p,
+    .step-card:hover strong {
+        color: #fff;
+    }
+
+    .step-card:hover .step-highlight {
+        background: rgba(255, 255, 255, .2);
+        color: #fff;
+    }
+
+    .step-1 {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-color: #fbbf24;
+    }
+
+    .step-2 {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        border-color: #3b82f6;
+    }
+
+    .step-3 {
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+        border-color: #10b981;
+    }
+
+    .step-header {
+        @apply flex items-center justify-between mb-6;
+    }
+
+    .step-number {
+        @apply w-12.5 h-12.5 rounded-full flex items-center justify-center text-[1.5rem] font-extrabold text-white;
+
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, .3);
+    }
+
+    .step-icon {
+        @apply text-[2.5rem];
+        animation: bounce 2s infinite;
+    }
+
+    .step-card h3 {
+        @apply text-[1.4rem] font-bold mb-4 text-gray-800;
+    }
+
+    .step-card p {
+        @apply text-gray-600 leading-[1.8] mb-4;
+    }
+
+    .step-card strong {
+        @apply font-bold text-emerald-600;
+    }
+
+    .step-highlight {
+        @apply inline-block px-4 py-1 rounded-full text-[.85rem] font-semibold text-indigo-700 bg-indigo-500/20;
+    }
+
+    .step-arrow {
+        @apply text-[2.5rem] font-bold text-indigo-500;
+        animation: slide 1.5s infinite;
+    }
+
+    /* ================= Breakdown ================= */
+
+    .income-breakdown {
+        @apply bg-white rounded-3xl px-8 py-12 mb-12 border-2 border-gray-200;
+    }
+
+    .breakdown-title {
+        @apply text-center text-[2rem] font-extrabold text-gray-800 mb-12;
+    }
+
+    .breakdown-grid {
+        @apply grid gap-12 items-center mx-auto max-w-250;
+        grid-template-columns: 1fr auto 1fr;
+    }
+
+    .breakdown-item {
+        @apply rounded-2xl p-8;
+        background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+    }
+
+    .breakdown-icon {
+        @apply text-[3rem] mb-4;
+    }
+
+    .breakdown-item h4 {
+        @apply text-[1.5rem] font-bold text-gray-800 mb-6;
+    }
+
+    .breakdown-item ul {
+        @apply list-none p-0;
+    }
+
+    .breakdown-item li {
+        @apply relative pl-6 py-2 text-gray-600 font-medium;
+    }
+
+    .breakdown-item li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #10b981;
+        font-weight: 700;
+    }
+
+    .breakdown-divider {
+        @apply text-[3rem] font-bold text-indigo-500;
+    }
+
+    /* ================= CTA ================= */
+
+    .cta-section {
+        @apply relative overflow-hidden rounded-3xl px-8 py-16 text-center bg-linear-to-br from-indigo-500 to-purple-600;
+    }
+
+    .cta-section::before {
+        content: '';
+        position: absolute;
+        inset: -50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, .1), transparent 70%);
+        animation: rotate 10s linear infinite;
+    }
+
+    .cta-content {
+        @apply relative z-10;
+    }
+
+    .cta-content h3 {
+        @apply text-[2.5rem] font-extrabold text-white mb-4;
+    }
+
+    .cta-content p {
+        @apply text-[1.2rem] text-white/90 mb-10;
+    }
+
+    .cta-buttons {
+        @apply flex gap-6 justify-center flex-wrap;
+    }
+
+    .btn-large {
+        @apply inline-flex items-center justify-center min-w-70 h-15 text-[1.2rem] font-bold rounded-xl transition-all;
+    }
+
+    .btn-primary {
+        @apply text-white;
+        background: linear-gradient(135deg, #10b981, #059669);
+        box-shadow: 0 10px 30px rgba(16, 185, 129, .3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(16, 185, 129, .5);
+    }
+
+    .btn-outline {
+        @apply border-2 border-white text-white px-8;
+    }
+
+    .btn-outline:hover {
+        background: white;
+        color: #667eea;
+        transform: translateY(-3px);
+    }
+
+    /* ============ Mobile ============ */
+
+    @media (max-width:768px) {
+        .how-to-play {
+            @apply px-4 py-12;
+        }
+
+        .section-title {
+            @apply text-[2rem];
+        }
+
+        .section-subtitle {
+            @apply text-base;
+        }
+
+        .steps-container {
+            @apply flex-col;
+        }
+
+        .step-arrow {
+            transform: rotate(90deg);
+        }
+
+        .step-card {
+            @apply max-w-full;
+        }
+
+        .income-breakdown {
+            @apply px-4 py-8;
+        }
+
+        .breakdown-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .breakdown-divider {
+            transform: rotate(90deg);
+        }
+
+        .cta-content h3 {
+            @apply text-[1.8rem];
+        }
+
+        .cta-content p {
+            @apply text-base;
+        }
+
+        .cta-buttons {
+            @apply flex-col;
+        }
+
+        .btn-large {
+            @apply w-full;
+        }
+    }
+}
+
+/* Animations */
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes slide {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(10px);
+    }
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}

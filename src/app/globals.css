@@ -1,3 +1,9 @@
 @import "tailwindcss";
 @import "../styles/static-pages.css";
 @import "../styles/contact-us.css";
+@import "../styles/hero.css";
+@import "../styles/highlights.css";
+@import "../styles/winners.css";
+@import "../styles/howtoplay.css";
+@import "../styles/dashboard.css";
+@import "../styles/addcash.css";

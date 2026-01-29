@@ -1,0 +1,157 @@
+.modal-overlay {
+    @apply fixed inset-0 bg-black/60 flex items-center justify-center z-[1000] p-4;
+}
+
+.modal-content {
+    @apply bg-white rounded-xl px-6 py-5 max-w-[750px] w-full max-h-[90vh] overflow-y-auto relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+}
+
+.add-cash-modal h2 {
+    @apply text-gray-800 text-xl font-bold mb-4 text-center;
+}
+
+.tabs {
+    @apply flex gap-4 mb-5 border-b-2 border-gray-200;
+}
+
+.tab {
+    @apply flex-1 py-2.5 bg-transparent border-0 text-gray-500 font-semibold text-[.95rem] cursor-pointer relative transition-all;
+}
+
+.tab:hover {
+    @apply text-blue-600;
+}
+
+.tab.active {
+    @apply text-blue-600;
+}
+
+.tab.active::after {
+    content: '';
+    @apply absolute bottom-[-2px] left-0 right-0 h-[2px] bg-blue-600;
+}
+
+.tab-content {
+    @apply py-3;
+}
+
+.section-description {
+    @apply text-gray-500 mb-4 leading-[1.5] text-center text-sm;
+}
+
+/* Redeem Section */
+
+.redeem-form {
+    @apply flex flex-col gap-4;
+}
+
+.redeem-form .form-group {
+    @apply flex flex-col;
+}
+
+.redeem-form label {
+    @apply text-gray-700 font-semibold mb-1.5 text-sm;
+}
+
+.redeem-form input {
+    @apply p-3 border-2 border-gray-300 rounded-lg text-base font-semibold text-center tracking-[2px] uppercase transition-all;
+}
+
+.redeem-form input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+}
+
+.redeem-form .btn-primary {
+    @apply bg-blue-600 text-white p-3 rounded-lg font-bold text-[.95rem] transition-all;
+}
+
+.redeem-form .btn-primary:hover:not(:disabled) {
+    @apply bg-blue-700;
+    transform: translateY(-1px);
+}
+
+.redeem-form .btn-primary:disabled {
+    @apply opacity-60 cursor-not-allowed;
+}
+
+/* Bank Transfer */
+
+.bank-transfer-section {
+    @apply flex flex-col gap-5;
+}
+
+.bank-info h3 {
+    @apply text-gray-800 text-[1.1rem] font-bold mb-3 text-center;
+}
+
+.lead-text {
+    @apply text-gray-600 leading-[1.5] text-sm mb-4;
+}
+
+.info-note {
+    @apply flex gap-3 p-3 bg-blue-50 border-l-4 border-blue-600 rounded-md;
+}
+
+.note-icon {
+    @apply text-xl shrink-0;
+}
+
+.info-note p {
+    @apply text-blue-800 font-medium text-sm m-0;
+}
+
+.contact-buttons {
+    @apply flex flex-col gap-3;
+}
+
+.btn-whatsapp,
+.btn-telegram {
+    @apply flex items-center justify-center gap-3 px-5 py-3 rounded-lg font-semibold text-[.95rem] transition-all text-white;
+}
+
+.btn-whatsapp {
+    background: #25d366;
+}
+
+.btn-whatsapp:hover {
+    background: #1da851;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, .4);
+}
+
+.btn-telegram {
+    background: #0088cc;
+}
+
+.btn-telegram:hover {
+    background: #006699;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 136, 204, .4);
+}
+
+.btn-icon {
+    @apply text-[1.5rem];
+}
+
+/* Mobile */
+
+@media (max-width:640px) {
+    .modal-content {
+        @apply p-6;
+    }
+
+    .add-cash-modal h2 {
+        @apply text-xl;
+    }
+
+    .tabs {
+        @apply gap-2;
+    }
+
+    .tab {
+        @apply p-3 text-sm;
+    }
+}

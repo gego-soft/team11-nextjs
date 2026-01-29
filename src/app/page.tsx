@@ -1,7 +1,11 @@
-import React from "react";
+import HomePage from "@/components/Auth/Homepage/Homepage";
 
 const page = () => {
-  return <div>page</div>;
+  return (
+    <div>
+      <HomePage />
+    </div>
+  );
 };
 
 export default page;

@@ -1,0 +1,251 @@
+.winners {
+    @apply relative overflow-x-hidden overflow-y-visible text-white px-8 py-20 bg-linear-to-br from-gray-800 to-gray-900;
+}
+
+.winners::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(102, 126, 234, .1), transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 215, 0, .1), transparent 50%);
+    pointer-events: none;
+}
+
+.section-container {
+    @apply relative z-10;
+}
+
+.section-header {
+    @apply text-center mb-16;
+}
+
+.section-title {
+    @apply text-[2.8rem] font-extrabold text-white mb-3;
+}
+
+.section-subtitle {
+    @apply text-[1.2rem] text-white/70 font-medium;
+}
+
+/* ================= Grids ================= */
+
+.winners-top-grid {
+    @apply grid gap-8 mx-auto mb-8 max-w-full px-4;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.winners-recent-grid {
+    @apply grid gap-6 mx-auto mb-12 max-w-full px-4;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* ================= Cards ================= */
+
+.winner-card {
+    @apply relative text-center rounded-3xl border-2 border-white/15 transition-all overflow-hidden;
+
+    background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02));
+    backdrop-filter: blur(10px);
+}
+
+.winner-card-large {
+    @apply flex flex-col items-center justify-center px-8 py-10 min-h-80;
+}
+
+.winner-card-small {
+    @apply flex flex-col items-center justify-center px-4 py-6 min-h-55;
+}
+
+.winner-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 215, 0, .1), transparent);
+    opacity: 0;
+    transition: .4s;
+}
+
+.winner-card:hover::before {
+    opacity: 1;
+}
+
+.winner-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(255, 215, 0, .5);
+    box-shadow: 0 25px 50px rgba(255, 215, 0, .25);
+}
+
+/* Accent Colors */
+
+.winner-gold {
+    border-color: rgba(255, 215, 0, .3);
+}
+
+.winner-purple {
+    border-color: rgba(168, 85, 247, .3);
+}
+
+.winner-blue {
+    border-color: rgba(59, 130, 246, .3);
+}
+
+.winner-green {
+    border-color: rgba(16, 185, 129, .3);
+}
+
+.winner-orange {
+    border-color: rgba(249, 115, 22, .3);
+}
+
+.winner-cyan {
+    border-color: rgba(6, 182, 212, .3);
+}
+
+.winner-rank {
+    @apply absolute top-4 right-4 w-12.5 h-12.5 flex items-center justify-center rounded-full text-[1.3rem] font-extrabold;
+
+    background: rgba(255, 215, 0, .3);
+    color: #ffd700;
+    border: 2px solid rgba(255, 215, 0, .5);
+}
+
+.winner-badge-large {
+    @apply text-[5.5rem] mb-6;
+    animation: float 3s infinite;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .3));
+}
+
+.winner-badge-small {
+    @apply text-[3.5rem] mb-3;
+    animation: float 3s infinite;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, .3));
+}
+
+.winner-name {
+    @apply text-[1.4rem] font-bold mb-4;
+}
+
+.winner-name-small {
+    @apply text-base font-semibold mb-2;
+}
+
+.winner-amount {
+    @apply text-[2.2rem] font-black mb-3;
+    color: #ffd700;
+    text-shadow: 0 0 30px rgba(255, 215, 0, .5);
+}
+
+.winner-amount-small {
+    @apply text-[1.4rem] font-extrabold mb-2;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, .4);
+}
+
+.winner-type {
+    @apply inline-block mt-2 px-4 py-2 rounded-full text-[.95rem] font-medium text-white/70 bg-white/10;
+}
+
+.winner-type-small {
+    @apply inline-block mt-1 px-3 py-[.35rem] rounded-full text-[.75rem] font-medium text-white/70 bg-white/10;
+}
+
+.winner-shine {
+    position: absolute;
+    inset: -50%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, .1) 50%, transparent 70%);
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+/* ================= Ticker ================= */
+
+.winners-ticker {
+    @apply rounded-xl py-4 overflow-hidden border border-white/10 bg-white/5;
+}
+
+.ticker-content {
+    @apply flex whitespace-nowrap;
+    animation: scroll 30s linear infinite;
+}
+
+.ticker-content span {
+    @apply text-white font-semibold px-12 text-base inline-block;
+}
+
+/* ============ Mobile ============ */
+
+@media (max-width:768px) {
+    .winners {
+        @apply px-4 py-12;
+    }
+
+    .section-title {
+        @apply text-[2rem];
+    }
+
+    .section-subtitle {
+        @apply text-base;
+    }
+
+    .winners-top-grid,
+    .winners-recent-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .winner-card-large,
+    .winner-card-small {
+        @apply min-h-50 px-6 py-8;
+    }
+
+    .ticker-content span {
+        @apply px-8 text-[.9rem];
+    }
+}
+
+/* Tablet */
+
+@media (max-width:1024px) and (min-width:769px) {
+    .winners-top-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .winners-recent-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Animations */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

@@ -1,4 +1,4 @@
-@layer components {
+
     .static-page {
         @apply min-h-[calc(100vh-200px)] px-8 py-16 bg-linear-to-b from-white to-gray-50;
     }
@@ -44,4 +44,3 @@
             @apply text-[1.3rem];
         }
     }
-}

@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "outline";
+  variant?: "primary" | "outline" | "submit";
   children: ReactNode;
 }
 
@@ -17,8 +17,9 @@ export default function Button({
   const variants = {
     primary:
       "bg-[#ffd700]  border-2 text-gray-600 border-amber-300 hover:-translate-y-1 hover:shadow-lg shadow-amber-400/50",
-    outline:  
+    outline:
       "bg-transparent text-blue-600 border-2 border-blue-600 hover:bg-blue-50",
+    submit: "submit-btn",
   };
 
   return (
