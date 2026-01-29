@@ -22,3 +22,21 @@ export interface ChangePasswordType {
     newpassword: string;
     confirmpassword: string
 }
+
+export interface AddressType {
+    address_1: string;
+    address_2?: string;
+    locality: string;
+    city: string;
+    state: string;
+    pincode: string;
+    country: string;
+}
+
+export interface UpdateProfileType {
+    firstname: string;
+    lastname: string;
+    gender: string;
+    dob: string;
+    address: AddressType;
+}

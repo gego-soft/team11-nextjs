@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import FormInputField from "../Common/Forms/FormInputField";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import { useRouter } from "next/navigation";
 
 interface LoginProps {
   onClose: () => void;
@@ -27,6 +28,7 @@ export default function Login({
 }: LoginProps) {
   const [activeTab, setActiveTab] = useState<LoginTab>("email");
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const router = useRouter();
 
   const formik = useFormik<LoginFormValues>({
     initialValues: {
@@ -56,6 +58,7 @@ export default function Login({
         if (response.status === 200) {
           toast.success(response.data.message || "Login Successfully");
           Cookies.set("token", response.data.data.token);
+          router.push("/profile/preview");
           onClose();
           resetForm();
         }
