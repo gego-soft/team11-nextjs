@@ -6,12 +6,12 @@ import { LoginvalidationSchema } from "@/validations/Auth/RegistrationSchema";
 import { LoginFormValues } from "@/types/Auth/authTypes";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
-import { loginCall } from "@/services/Auth/authService";
 import Cookies from "js-cookie";
 import FormInputField from "../Common/Forms/FormInputField";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import { useRouter } from "next/navigation";
+import { AuthService } from "@/services/Auth/authService";
 
 interface LoginProps {
   onClose: () => void;
@@ -53,11 +53,11 @@ export default function Login({
             mobile_no: values.mobile_no,
           }),
         } as LoginFormValues;
-        const response = await loginCall(submitValues);
+        const response = await AuthService.login(submitValues);
 
         if (response.status === 200) {
           toast.success(response.data.message || "Login Successfully");
-          Cookies.set("token", response.data.data.token);
+          Cookies.set("userToken", response.data.data.token);
           router.push("/profile/preview");
           onClose();
           resetForm();
@@ -133,7 +133,7 @@ export default function Login({
           </div>
 
           {/* Scrollable Body */}
-          <div className="flex-1 overflow-y-auto px-8 py-6">
+          <div className="flex-1 overflow-y-auto px-8 pt-4 pb-2">
             {/* Tabs */}
             <div className="flex border-b border-gray-200 mb-6">
               <button
@@ -207,15 +207,14 @@ export default function Login({
           </div>
 
           {/* Static Footer */}
-          <div className="shrink-0 px-8 pt-4 pb-6 border-t border-gray-100">
-            <div className="space-y-4">
+          <div className="shrink-0 px-8 pb-6 border-t border-gray-100">
+            <div>
               {/* Login Button */}
               <Button
                 type="submit"
-                variant="primary"
-                className="w-full h-12 text-base font-bold"
+                variant="submitblue"
                 onClick={() => formik.handleSubmit()}
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || !formik.isValid}
               >
                 {formik.isSubmitting ? "Logging in..." : "Login"}
               </Button>
@@ -226,7 +225,7 @@ export default function Login({
                   Don&apos;t have an account?{" "}
                   <button
                     type="button"
-                    className="text-blue-600 hover:text-blue-800 font-semibold bg-none border-none cursor-pointer"
+                    className="link-btn"
                     onClick={() => {
                       onClose();
                       onSwitchToRegister();

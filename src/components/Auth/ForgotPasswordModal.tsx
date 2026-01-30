@@ -9,10 +9,8 @@ import FormInputField from "../Common/Forms/FormInputField";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import { IoClose } from "react-icons/io5";
 import { ForgotPasswordSchema } from "@/validations/Auth/ForgotPasswordSchema";
-import {
-  forgotPasswordCall,
-  forgotPasswordType,
-} from "@/services/Auth/forgotPasswordService";
+import { forgotPasswordType } from "@/types/Auth/password";
+import { PasswordService } from "@/services/Auth/passwordService";
 
 interface ForgotPasswordModalProps {
   onClose: () => void;
@@ -35,7 +33,7 @@ export default function ForgotPasswordModal({
     validationSchema: ForgotPasswordSchema,
     onSubmit: async (values, { setSubmitting, setErrors, resetForm }) => {
       try {
-        const response = await forgotPasswordCall(values);
+        const response = await PasswordService.forgotPassword(values);
 
         toast.success(
           response.data.message ||

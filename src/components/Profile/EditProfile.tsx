@@ -10,7 +10,7 @@ import { mapServerErrors } from "@/utils/mapServerErrors";
 import { FaArrowLeft } from "react-icons/fa";
 import { UpdateProfileType } from "@/types/ProfileTypes/ProfileType";
 import { UpdateProfileSchema } from "@/validations/Profile/UpdateProfileSchema";
-import { updataProfileCall } from "@/services/Profile/ProfileServices";
+import { ProfileService } from "@/services/Profile/ProfileServices";
 
 interface EditProfileProps {
   initialData: UpdateProfileType | null;
@@ -48,7 +48,7 @@ export default function EditProfile({
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const response = await updataProfileCall(values);
+        const response = await ProfileService.updateProfile(values);
 
         toast.success(response.data.message || "Profile updated successfully");
 

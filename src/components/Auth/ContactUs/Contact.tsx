@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/Button";
 import FormInputField from "@/components/Common/Forms/FormInputField";
-import { contactus } from "@/services/Auth/contactService";
+import { ContactService } from "@/services/Auth/contactService";
 import { ContactUsValues } from "@/types/Auth/contactDetails";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import { ContactUsSchema } from "@/validations/Auth/ContactUsSchema";
@@ -19,14 +19,17 @@ function ContactUs() {
       message: "",
     },
     validationSchema: ContactUsSchema,
-    onSubmit: async (values, { setErrors, resetForm, setSubmitting }) => {
+    onSubmit: async (values, { setErrors, resetForm }) => {
       try {
-        const response = await contactus(values);
+        const payload = {
+          ...values,
+          name: values.name.trim(),
+        };
+        const response = await ContactService.createContact(payload);
         resetForm();
         toast.success(
           response.data.message || "Contact submitted Successfully",
         );
-        setSubmitting(false);
       } catch (error) {
         const err = error as AxiosError<{
           message: string;
@@ -105,7 +108,7 @@ function ContactUs() {
 
                 <Button
                   type="submit"
-                  variant="submit"
+                  variant="submitviolet"
                   onClick={() => formik.handleSubmit()}
                   disabled={formik.isSubmitting || !formik.isValid}
                 >

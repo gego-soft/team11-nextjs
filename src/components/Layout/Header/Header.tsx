@@ -103,7 +103,7 @@ export default function Header() {
       {activeModal === "register" && (
         <Registration
           onClose={() => setActiveModal(null)}
-          // onSwitchToLogin={() => setActiveModal("login")}
+          onSwitchToLogin={() => setActiveModal("login")}
         />
       )}
 

@@ -6,7 +6,7 @@ export const ContactUsSchema = Yup.object().shape({
     .min(3, "Name must be at least 3 characters")
     .max(20, "Name must be less than 20 characters")
     .matches(
-      /^[a-zA-Z0-9_]+$/,
+      /^[a-zA-Z0-9_ ]+$/,
       "Name can only contain letters, numbers and underscores",
     )
     .required("Name is required"),

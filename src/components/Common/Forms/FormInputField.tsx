@@ -24,7 +24,8 @@ interface FormInputFieldProps {
     | "checkbox"
     | "radio"
     | "datetime-local"
-    | "section";
+    | "section"
+    | "hidden";
   placeholder?: string;
   options?: { label: string; value: string }[];
   accept?: string;
@@ -216,7 +217,16 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
 
   return (
     <div className="mb-4">
-      {label && type !== "checkbox" && (
+      {type === "hidden" && (
+        <input
+          {...field}
+          type="hidden"
+          name={field.name}
+          value={field.value ?? ""}
+        />
+      )}
+
+      {label && type !== "checkbox" && type !== "hidden" && (
         <label
           htmlFor={name}
           className={`block text-${
@@ -622,55 +632,54 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
                 } ${customClassName}`
           }`}
         />
-      ) : type === "password"?(
-         <div className="relative">
-        <input
-          {...field}
-          id={field.name}
-          type={showPassword ? "text" : "password"}
-          maxLength={maxLength || 50}
-          placeholder={placeholder}
-          value={field.value ?? ""}
-          disabled={disabled}
-          onBlur={field.onBlur}
-          readOnly={readonly}
-          onChange={(e) => {
-            let value: string | number = e.target.value;
-            if (uppercase && typeof value === "string") {
-              value = value.toUpperCase();
-            }
-            if (
-              maxLength &&
-              typeof value === "string" &&
-              value.length > maxLength
-            ) {
-              value = value.slice(0, maxLength);
-            }
-            helpers.setValue(value);
-          }}
-          className={`${
-            readonly
-              ? "w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
-              : `w-full disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-2 pr-10 ${
-                  uppercase ? "uppercase" : ""
-                } ${customClassName}`
-          }`}
-        />
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
-          disabled={disabled || readonly}
-        >
-          {showPassword ? (
-            <EyeOff className="h-5 w-5" />
-          ) : (
-            <Eye className="h-5 w-5" />
-          )}
-        </button>
-      </div>
-    )
-      :(
+      ) : type === "password" ? (
+        <div className="relative">
+          <input
+            {...field}
+            id={field.name}
+            type={showPassword ? "text" : "password"}
+            maxLength={maxLength || 50}
+            placeholder={placeholder}
+            value={field.value ?? ""}
+            disabled={disabled}
+            onBlur={field.onBlur}
+            readOnly={readonly}
+            onChange={(e) => {
+              let value: string | number = e.target.value;
+              if (uppercase && typeof value === "string") {
+                value = value.toUpperCase();
+              }
+              if (
+                maxLength &&
+                typeof value === "string" &&
+                value.length > maxLength
+              ) {
+                value = value.slice(0, maxLength);
+              }
+              helpers.setValue(value);
+            }}
+            className={`${
+              readonly
+                ? "w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
+                : `w-full disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-2 pr-10 ${
+                    uppercase ? "uppercase" : ""
+                  } ${customClassName}`
+            }`}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
+            disabled={disabled || readonly}
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5" />
+            ) : (
+              <Eye className="h-5 w-5" />
+            )}
+          </button>
+        </div>
+      ) : (
         <input
           {...field}
           min={min}
@@ -713,7 +722,9 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
         />
       )}
 
-      {hasError && <p className="text-red-600 text-sm mt-1">{meta.error}</p>}
+      {hasError && type !== "hidden" && (
+        <p className="text-red-600 text-sm mt-1">{meta.error}</p>
+      )}
     </div>
   );
 };

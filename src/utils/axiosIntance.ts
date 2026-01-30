@@ -1,4 +1,5 @@
 "use client";
+
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -9,18 +10,14 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const accessToken = Cookies.get("token");
+api.interceptors.request.use((config) => {
+  const token = Cookies.get("userToken");
 
-    if (accessToken) {
-      config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+  return config;
+});
 
 export default api;

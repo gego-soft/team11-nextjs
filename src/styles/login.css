@@ -1,0 +1,31 @@
+.login-modal {
+    @apply max-w-[450px];
+}
+
+.forgot-password {
+    @apply text-right -mt-2;
+}
+
+.forgot-password a {
+    @apply text-blue-600 text-sm font-medium transition-colors;
+}
+
+.forgot-password a:hover {
+    @apply text-blue-700 underline;
+}
+
+.auth-footer {
+    @apply mt-4 text-center pt-4 border-t border-gray-200;
+}
+
+.auth-footer p {
+    @apply text-gray-500 text-[0.9rem];
+}
+
+.link-btn {
+    @apply bg-transparent border-0 text-blue-600 font-semibold p-0 cursor-pointer transition-colors;
+}
+
+.link-btn:hover {
+    @apply text-blue-700 underline;
+}

@@ -1,6 +1,6 @@
 "use client";
 import BallLoader from "@/components/Common/BallLoader";
-import { faq } from "@/services/Auth/faqService";
+import { FaqService } from "@/services/Auth/faqService";
 import { Faq } from "@/types/Auth/faq";
 import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
@@ -15,9 +15,9 @@ export default function FAQ() {
     const fetchFaq = async () => {
       setLoading(true);
       try {
-        const res = await faq();
-        if (!res.success) {
-          console.error(res.message);
+        const res = await FaqService.getFaq();
+        if (!res.data.success) {
+          console.error(res.data.message);
         }
         setFaqs(res.data);
       } catch (err) {

@@ -3,7 +3,6 @@ import { FormikProvider, useFormik } from "formik";
 import Button from "../Button";
 import { RegistrationSchema } from "@/validations/Auth/RegistrationSchema";
 import { FormValues, LoginFormValues } from "@/types/Auth/authTypes";
-import { registrationCall } from "@/services/Auth/authService";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import FormInputField from "../Common/Forms/FormInputField";
@@ -11,12 +10,20 @@ import CountrySelect from "../Common/CountrySelect";
 import { CountryCode } from "libphonenumber-js";
 import { formatPhone } from "@/utils/formatphone";
 import { mapServerErrors } from "@/utils/mapServerErrors";
+import Cookies from "js-cookie";
+import SponsorField from "./SponsorField";
+import { AuthService } from "@/services/Auth/authService";
 
 interface RegistrationProps {
   onClose: () => void;
+  onSwitchToLogin: () => void;
 }
 
-export default function Registration({ onClose }: RegistrationProps) {
+export default function Registration({
+  onClose,
+  onSwitchToLogin,
+}: RegistrationProps) {
+  const sponsorValue = Cookies.get("sponsor");
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -38,7 +45,7 @@ export default function Registration({ onClose }: RegistrationProps) {
           mobile_number: formatPhone(values.country, values.mobile_number),
         };
 
-        const response = await registrationCall(formattedValues);
+        const response = await AuthService.register(formattedValues);
         onClose();
         resetForm();
         toast.success(response.data.message || "Registered Successfully");
@@ -88,9 +95,9 @@ export default function Registration({ onClose }: RegistrationProps) {
             <form onSubmit={formik.handleSubmit} className="space-y-5">
               <FormInputField
                 name="name"
-                label="Name"
+                label="Username"
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Choose a unique username"
                 required
               />
               <FormInputField
@@ -155,6 +162,7 @@ export default function Registration({ onClose }: RegistrationProps) {
                       onBlur={formik.handleBlur}
                       placeholder="Enter your mobile number"
                       className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-2"
+                      maxLength={10}
                     />
                   </div>
                 </div>
@@ -182,12 +190,7 @@ export default function Registration({ onClose }: RegistrationProps) {
                 required
               />
 
-              <FormInputField
-                name="referral_name"
-                label="Referral Name (optional)"
-                type="text"
-                placeholder="Enter your referral name"
-              />
+              <SponsorField refSponsor={sponsorValue!} />
 
               {/* Terms of Service */}
               {/* <div className="flex items-start space-x-2">
@@ -258,13 +261,27 @@ export default function Registration({ onClose }: RegistrationProps) {
           <div className="shrink-0 px-8 pt-4 pb-6 border-t border-gray-100">
             <Button
               type="submit"
-              variant="primary"
-              className="w-full h-12 text-base font-bold"
+              variant="submitblue"
               onClick={() => formik.handleSubmit()}
-              disabled={formik.isSubmitting}
+              disabled={formik.isSubmitting || !formik.isValid}
             >
-              Register
+              {formik.isSubmitting ? "Creating..." : "Register"}
             </Button>
+            <div className="text-center pt-4">
+              <p className="text-gray-600 text-sm">
+                Already have an account?{" "}
+                <button
+                  type="button"
+                  className="link-btn"
+                  onClick={() => {
+                    onClose();
+                    onSwitchToLogin();
+                  }}
+                >
+                  Login
+                </button>
+              </p>
+            </div>
           </div>
         </div>
       </div>
