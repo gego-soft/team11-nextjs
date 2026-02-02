@@ -1,11 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import Image from "next/image";
 import {
-  FaUser,
   FaEnvelope,
   FaPhone,
   FaCalendar,
@@ -13,43 +11,13 @@ import {
   FaTransgender,
   FaLink,
 } from "react-icons/fa";
+import { ProfileService } from "@/services/Profile/ProfileServices";
 import EditProfile from "./EditProfile";
 import { formatAddress } from "@/utils/helpter";
-import { ProfileService } from "@/services/Profile/ProfileServices";
-
-interface UserData {
-  id: number;
-  name: string;
-  email: string;
-  mobile_number: string;
-  email_verified_at: string | null;
-  two_factor_confirmed_at: string | null;
-  referral_id: string | null;
-  firstname: string | null;
-  lastname: string | null;
-  gender: string | null;
-  dob: string | null;
-  address:
-    | string
-    | {
-        address_1?: string;
-        address_2?: string;
-        locality?: string;
-        city?: string;
-        state?: string;
-        pincode?: string;
-        country?: string;
-      }
-    | null;
-  profile_img: string | null;
-  status: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string | null;
-  referral_name: string | null;
-  referral_link: string;
-  profile_img_url: string;
-}
+import { UserData } from "@/types/Auth/authTypes";
+import { formatDate } from "@/utils/formatDate";
+import { formatGender } from "@/utils/formatGender";
+import BallLoader from "../Common/BallLoader";
 
 interface ProfilePreviewProps {
   className?: string;
@@ -64,7 +32,6 @@ export default function ProfilePreview({
 }: ProfilePreviewProps) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -78,32 +45,15 @@ export default function ProfilePreview({
 
       if (response.status === 200) {
         setUserData(response.data.data);
-        setError(null);
       } else {
-        setError("Failed to load profile data");
         toast.error("Failed to load profile");
       }
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
-      setError(err.response?.data?.message || "Failed to load profile");
       toast.error(err.response?.data?.message || "Failed to load profile");
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "Not set";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatGender = (gender: string | null) => {
-    if (!gender) return "Not set";
-    return gender.charAt(0).toUpperCase() + gender.slice(1);
   };
 
   const getInitials = (name: string) => {
@@ -130,46 +80,7 @@ export default function ProfilePreview({
   };
 
   if (loading) {
-    return (
-      <div
-        className={`bg-white rounded-xl shadow-md p-6 animate-pulse ${className}`}
-      >
-        <div className="flex items-center space-x-4 mb-6">
-          <div className="w-20 h-20 bg-gray-300 rounded-full"></div>
-          <div className="flex-1">
-            <div className="h-6 bg-gray-300 rounded w-1/3 mb-2"></div>
-            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-          </div>
-        </div>
-        <div className="space-y-3">
-          <div className="h-4 bg-gray-300 rounded w-full"></div>
-          <div className="h-4 bg-gray-300 rounded w-full"></div>
-          <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={`bg-white rounded-xl shadow-md p-6 ${className}`}>
-        <div className="text-center py-8">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
-            <FaUser className="w-8 h-8 text-red-500" />
-          </div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">
-            Unable to load profile
-          </h3>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <button
-            onClick={fetchUserData}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
+    return <BallLoader />;
   }
 
   if (!userData) {
@@ -189,7 +100,7 @@ export default function ProfilePreview({
             {showEditButton && (
               <button
                 onClick={handleEditClick}
-                className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors backdrop-blur-sm"
+                className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors backdrop-blur-sm cursor-pointer"
               >
                 Edit Profile
               </button>
@@ -297,10 +208,6 @@ export default function ProfilePreview({
               <p className="text-gray-500 text-sm mb-3">
                 Member since {formatDate(userData.created_at)}
               </p>
-              {/* <div className="inline-flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">
-              <FaIdCard className="w-4 h-4 mr-2" />
-              ID: {userData.id}
-            </div> */}
             </div>
           </div>
 
@@ -414,12 +321,13 @@ export default function ProfilePreview({
                     </div>
                     <div className="flex items-center">
                       <code className="bg-white px-3 py-2 rounded border text-sm text-gray-800 font-mono break-all">
+                        {window.location.origin}
                         {userData.referral_link}
                       </code>
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(
-                            `${userData.referral_link}`,
+                            `${window.location.origin}${userData.referral_link}`,
                           );
                           toast.success("Referral link copied!");
                         }}
@@ -433,41 +341,6 @@ export default function ProfilePreview({
               </div>
             </div>
           )}
-
-          {/* Account Status */}
-          {/* <div className="mt-6 pt-6 border-t border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-            Account Status
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">2FA</div>
-              <div className="text-sm text-gray-600 mt-1">
-                {userData.two_factor_confirmed_at ? "Enabled" : "Disabled"}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">
-                {userData.status === 1 ? "Active" : "Inactive"}
-              </div>
-              <div className="text-sm text-gray-600 mt-1">Status</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600">
-                {formatDate(userData.created_at).split(" ")[0]}
-              </div>
-              <div className="text-sm text-gray-600 mt-1">Joined Month</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">
-                {userData.email_verified_at ? "✓" : "⚠"}
-              </div>
-              <div className="text-sm text-gray-600 mt-1">
-                Email {userData.email_verified_at ? "Verified" : "Pending"}
-              </div>
-            </div>
-          </div>
-        </div> */}
         </div>
       )}
     </div>

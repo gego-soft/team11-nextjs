@@ -11,6 +11,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { UpdateProfileType } from "@/types/ProfileTypes/ProfileType";
 import { UpdateProfileSchema } from "@/validations/Profile/UpdateProfileSchema";
 import { ProfileService } from "@/services/Profile/ProfileServices";
+import { Country } from "country-state-city";
 
 interface EditProfileProps {
   initialData: UpdateProfileType | null;
@@ -76,11 +77,18 @@ export default function EditProfile({
     },
   });
 
+  const getCountryOptions = () => {
+    return Country.getAllCountries().map((country) => ({
+      label: country.name,
+      value: country.name, // Send country name instead of code
+    }));
+  };
+
   return (
     <FormikProvider value={formik}>
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-md overflow-hidden max-h-[90vh]">
         {/* Header */}
-        <div className="bg-linear-to-r from-blue-600 to-purple-600 p-6 text-white">
+        <div className="bg-linear-to-r from-blue-600 to-purple-600 p-6 text-white sticky z-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <button
@@ -100,7 +108,7 @@ export default function EditProfile({
         </div>
 
         {/* Form Content */}
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           <form onSubmit={formik.handleSubmit} className="space-y-6">
             {/* Personal Information */}
             <div>
@@ -204,8 +212,8 @@ export default function EditProfile({
                 <FormInputField
                   name="address.country"
                   label="Country"
-                  type="text"
-                  placeholder="Enter country"
+                  type="select"
+                  options={getCountryOptions()}
                   required
                 />
               </div>

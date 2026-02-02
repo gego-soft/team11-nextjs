@@ -11,7 +11,9 @@ import FormInputField from "../Common/Forms/FormInputField";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import { useRouter } from "next/navigation";
-import { AuthService } from "@/services/Auth/authService";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { LoginPayload } from "@/types/Redux/authTypes";
+import { loginUser } from "@/store/slices/authThunks";
 
 interface LoginProps {
   onClose: () => void;
@@ -29,6 +31,7 @@ export default function Login({
   const [activeTab, setActiveTab] = useState<LoginTab>("email");
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const formik = useFormik<LoginFormValues>({
     initialValues: {
@@ -43,21 +46,33 @@ export default function Login({
 
     onSubmit: async (values, { setSubmitting, setErrors, resetForm }) => {
       try {
-        const submitValues = {
-          password: values.password,
-          device_name: values.device_name,
-          log_type: values.log_type,
-          login_type: values.login_type,
-          ...(values.log_type === "email" && { email: values.email }),
-          ...(values.log_type === "mobile_no" && {
-            mobile_no: values.mobile_no,
-          }),
-        } as LoginFormValues;
-        const response = await AuthService.login(submitValues);
+        let submitValues: LoginPayload;
 
-        if (response.status === 200) {
-          toast.success(response.data.message || "Login Successfully");
-          Cookies.set("userToken", response.data.data.token);
+        if (values.log_type === "email") {
+          submitValues = {
+            email: values.email!,
+            password: values.password,
+            device_name: values.device_name,
+            log_type: "email",
+            login_type: values.login_type,
+          };
+        } else {
+          submitValues = {
+            mobile_no: values.mobile_no!,
+            password: values.password,
+            device_name: values.device_name,
+            log_type: "mobile_no",
+            login_type: values.login_type,
+          };
+        }
+
+        const response = await dispatch(loginUser(submitValues)).unwrap();
+
+        console.log("response : ", response);
+
+        if (response.status === true) {
+          toast.success(response.message || "Login Successfully");
+          Cookies.set("userToken", response.data.token);
           router.push("/profile/preview");
           onClose();
           resetForm();

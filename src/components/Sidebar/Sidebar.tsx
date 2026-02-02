@@ -2,9 +2,11 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 function Sidebar() {
   const pathname = usePathname();
+  const { user, isAuthenticated } = useAuth();
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard" },
@@ -17,6 +19,9 @@ function Sidebar() {
     { name: "Profile", path: "/profile" },
   ];
 
+  if (!user && !isAuthenticated) {
+    return null;
+  }
   return (
     <>
       {/* Mobile Navigation (Horizontal Scroll) */}
@@ -49,12 +54,8 @@ function Sidebar() {
 
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-72px)] sticky top-18">
-       
-
         {/* Navigation */}
         <nav className="p-6">
-        
-
           <ul className="space-y-1">
             {navItems.map((item) => {
               const isActive =
@@ -68,7 +69,7 @@ function Sidebar() {
                     className={`
                       block py-3 px-4 text-gray-700 font-medium rounded-lg transition-all duration-200
                       hover:bg-gray-50 hover:text-blue-600
-                      ${isActive ? "bg-blue-50 text-blue-600" : ""}
+                      ${isActive ? "bg-blue-600 text-white" : ""}
                     `}
                   >
                     {item.name}
@@ -77,10 +78,6 @@ function Sidebar() {
               );
             })}
           </ul>
-
-        
-
-         
         </nav>
       </aside>
     </>

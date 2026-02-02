@@ -17,5 +17,39 @@ export interface LoginFormValues {
     password: string;
     device_name: string,
     log_type: string,
-    login_type:string
+    login_type: string
+}
+
+export interface UserData {
+    id: number;
+    name: string;
+    email: string;
+    mobile_number: string;
+    email_verified_at: string | null;
+    two_factor_confirmed_at: string | null;
+    referral_id: string | null;
+    firstname: string | null;
+    lastname: string | null;
+    gender: string | null;
+    dob: string | null;
+    address:
+    | string
+    | {
+        address_1?: string;
+        address_2?: string;
+        locality?: string;
+        city?: string;
+        state?: string;
+        pincode?: string;
+        country?: string;
+    }
+    | null;
+    profile_img: string | null;
+    status: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    referral_name: string | null;
+    referral_link: string;
+    profile_img_url: string;
 }
