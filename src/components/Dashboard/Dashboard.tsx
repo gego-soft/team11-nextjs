@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AddCash from "./AddCash";
+import AddCash from "../MyWallet/AddCash";
 
 function Dashboard({ walletBalance = 1000, hasInvitationBonus = false }) {
   const navigate = useRouter();

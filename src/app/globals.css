@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@layer components {
 @import "../styles/static-pages.css";
 @import "../styles/contact-us.css";
 @import "../styles/hero.css";
@@ -9,3 +10,7 @@
 @import "../styles/addcash.css";
 @import "../styles/login.css";
 @import "../styles/register.css";
+@import "../styles/my-wallet.css";
+    @import "../styles/my-coupons.css";
+    @import "../styles/redeem-coupon.css";
+}

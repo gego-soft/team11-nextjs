@@ -24,9 +24,8 @@ function HowToPlay() {
             </p>
             <div className="step-highlight">Instant Credit</div>
           </div>
-
-          <div className="step-arrow">→</div>
-
+          <div className="hidden md:block step-arrow">→</div>
+          <div className="block md:hidden step-arrow">↓</div>
           <div className="step-card step-2">
             <div className="step-header">
               <div className="step-number">2</div>
@@ -39,9 +38,8 @@ function HowToPlay() {
             </p>
             <div className="step-highlight">Multiple Contests</div>
           </div>
-
-          <div className="step-arrow">→</div>
-
+          <div className="hidden md:block step-arrow">→</div>
+          <div className="block md:hidden step-arrow">↓</div>
           <div className="step-card step-3">
             <div className="step-header">
               <div className="step-number">3</div>

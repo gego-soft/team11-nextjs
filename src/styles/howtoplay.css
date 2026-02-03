@@ -235,10 +235,6 @@
             @apply flex-col;
         }
 
-        .step-arrow {
-            transform: rotate(90deg);
-        }
-
         .step-card {
             @apply max-w-full;
         }
@@ -253,7 +249,8 @@
         }
 
         .breakdown-divider {
-            transform: rotate(90deg);
+            transform: rotate(0deg);
+                text-align: center;
         }
 
         .cta-content h3 {
@@ -273,7 +270,23 @@
         }
     }
 }
+@media (max-width:768px) {
+    .step-arrow {
+        animation: slideY 1.5s infinite;
+    }
+}
 
+@keyframes slideY {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(12px);
+    }
+}
 /* Animations */
 
 @keyframes bounce {

@@ -1,0 +1,272 @@
+.my-wallet {
+  @apply flex-1 bg-gray-100 p-8;
+}
+
+/* Container */
+
+.wallet-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.wallet-header {
+  @apply flex justify-between items-center mb-8 flex-wrap gap-4;
+}
+
+.wallet-header h1 {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+/* Balance Card */
+
+.wallet-balance-card {
+  @apply flex flex-col items-end rounded-xl px-8 py-6;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+}
+
+.wallet-balance-card .balance-label {
+  @apply text-sm font-medium mb-1;
+  color: rgba(255, 255, 255, .9);
+}
+
+.wallet-balance-card .balance-amount {
+  @apply text-2xl font-bold text-white;
+}
+
+/* Actions */
+
+.wallet-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.action-btn {
+  @apply flex flex-col items-center gap-2 p-6 rounded-xl font-semibold text-gray-800 transition-all bg-white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+}
+
+.action-icon {
+  @apply text-2xl;
+}
+
+/* Hover gradients stay raw */
+
+.add-funds:hover {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.withdraw-funds:hover {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.generate-coupon:hover {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+}
+
+.redeem-coupon:hover {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+  color: white;
+}
+
+.my-coupons:hover {
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  color: white;
+}
+
+/* Transactions */
+
+.transactions-section {
+  @apply bg-white p-8 rounded-xl;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+}
+
+.transactions-header {
+  @apply flex justify-between items-center mb-6 flex-wrap gap-4;
+}
+
+.transactions-section h2 {
+  @apply text-xl font-bold text-gray-800 m-0;
+}
+
+.transaction-filters {
+  @apply flex gap-2 flex-wrap;
+}
+
+.filter-btn {
+  @apply px-4 py-2 rounded-lg border-2 bg-white text-gray-500 font-semibold text-sm transition-all cursor-pointer;
+  border-color: #e5e7eb;
+}
+
+.filter-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.filter-btn.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: white;
+}
+
+.transactions-list {
+  @apply flex flex-col gap-4;
+}
+
+.transaction-item {
+  @apply flex items-center gap-4 p-4 rounded-lg transition-all;
+  background: #f9fafb;
+}
+
+.transaction-item:hover {
+  background: #f3f4f6;
+}
+
+.transaction-icon {
+  @apply text-2xl shrink-0;
+}
+
+.transaction-details {
+  @apply flex-1;
+}
+
+.transaction-details h3 {
+  @apply text-base font-semibold text-gray-800 mb-1;
+}
+
+.transaction-subtext {
+  @apply text-[.8rem] text-gray-500 my-1 leading-snug;
+}
+
+.transaction-date {
+  @apply text-sm text-gray-400 mt-1;
+}
+
+.transaction-amount {
+  @apply text-xl font-bold shrink-0;
+}
+
+.transaction-amount.credit {
+  color: #059669;
+}
+
+.transaction-amount.debit {
+  color: #dc2626;
+}
+
+/* Pagination */
+
+.pagination {
+  @apply flex justify-center items-center gap-4 mt-8 pt-6;
+  border-top: 1px solid #e5e7eb;
+}
+
+.pagination-btn {
+  @apply px-6 py-2 rounded-lg border-2 font-semibold text-sm transition-all cursor-pointer;
+  border-color: #2563eb;
+  color: #2563eb;
+  background: white;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #2563eb;
+  color: white;
+}
+
+.pagination-btn:disabled {
+  border-color: #e5e7eb;
+  color: #9ca3af;
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  @apply text-sm font-semibold text-gray-500 px-4;
+}
+
+/* Withdrawal Info */
+
+.withdrawal-info {
+  @apply bg-gray-100 rounded-lg p-4 flex flex-col gap-3;
+}
+
+.info-item {
+  @apply flex justify-between items-center text-sm;
+}
+
+.info-label {
+  @apply text-gray-500 font-medium;
+}
+
+.info-value {
+  @apply text-gray-800 font-bold;
+}
+
+/* ================= Mobile ================= */
+
+@media(max-width:768px) {
+
+  .my-wallet {
+    @apply p-4;
+  }
+
+  .wallet-header {
+    @apply flex-col items-stretch;
+  }
+
+  .wallet-balance-card {
+    @apply items-center;
+  }
+
+  .wallet-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .transactions-section {
+    @apply p-6;
+  }
+
+  .transactions-header {
+    @apply flex-col items-stretch;
+  }
+
+  .transaction-filters {
+    @apply justify-stretch;
+  }
+
+  .filter-btn {
+    @apply flex-1;
+  }
+
+  .transaction-item {
+    @apply flex-wrap;
+  }
+
+  .transaction-amount {
+    width: 100%;
+    text-align: right;
+    margin-top: .5rem;
+  }
+
+  .pagination {
+    @apply flex-wrap;
+  }
+
+  .pagination-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+
+}
