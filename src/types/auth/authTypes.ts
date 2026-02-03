@@ -12,12 +12,13 @@ export interface FormValues {
 
 
 export interface LoginFormValues {
-    mobile_no?: string;
-    email?: string;
+    mobile_no: string;
+    email: string;
     password: string;
     device_name: string,
     log_type: string,
-    login_type: string
+    login_type: string,
+    country: string,
 }
 
 export interface UserData {
@@ -52,4 +53,19 @@ export interface UserData {
     referral_name: string | null;
     referral_link: string;
     profile_img_url: string;
+    is_bank: boolean,
+    balance: number,
+    bank_accounts: {
+        id: number,
+        user_id: number,
+        account_number: string,
+        account_holder_name: string,
+        bank_name: string,
+        branch: string,
+        ifsc_code: string,
+        is_primary: boolean,
+        status: boolean,
+        created_at: string,
+        updated_at: string
+    }
 }

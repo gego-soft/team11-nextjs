@@ -12,7 +12,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "rounded-lg font-semibold text-sm transition-all duration-300 h-11 min-w-[120px] inline-flex items-center justify-center box-border w-full cursor-pointer";
+    "rounded-lg font-semibold text-sm transition-all duration-300 h-11 min-w-[100px] inline-flex items-center justify-center box-border w-full cursor-pointer";
 
   const variants = {
     primary:

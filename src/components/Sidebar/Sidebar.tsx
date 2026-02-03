@@ -16,7 +16,7 @@ function Sidebar() {
     { name: "My Contests", path: "/my-contests" },
     { name: "Game Simulator", path: "/game-simulator" },
     { name: "My Wallet", path: "/my-wallet" },
-    { name: "Profile", path: "/profile" },
+    // { name: "Profile", path: "/profile" },
   ];
 
   if (!user && !isAuthenticated) {

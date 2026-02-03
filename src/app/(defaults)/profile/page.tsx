@@ -1,8 +1,11 @@
-import Profile from "@/components/Profile/Profile";
-import React from "react";
+import ProfilePreview from "@/components/Profile/ProfilePreview";
 
 const page = () => {
-  return <Profile />;
+  return (
+    <>
+      <ProfilePreview />
+    </>
+  );
 };
 
 export default page;

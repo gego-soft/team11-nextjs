@@ -11,9 +11,12 @@ import FormInputField from "../Common/Forms/FormInputField";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/hooks/useRedux";
+import { useAppDispatch } from "@/store/hooks";
 import { LoginPayload } from "@/types/Redux/authTypes";
 import { loginUser } from "@/store/slices/authThunks";
+import CountrySelect from "../Common/CountrySelect";
+import { CountryCode } from "libphonenumber-js";
+import { formatPhone } from "@/utils/formatphone";
 
 interface LoginProps {
   onClose: () => void;
@@ -38,6 +41,7 @@ export default function Login({
       mobile_no: "",
       email: "",
       password: "",
+      country: "IN",
       device_name: "web",
       log_type: "email",
       login_type: "web",
@@ -57,8 +61,10 @@ export default function Login({
             login_type: values.login_type,
           };
         } else {
+          // ✅ FORMAT MOBILE NUMBER LIKE REGISTER
+          const formattedMobile = formatPhone(values.country, values.mobile_no);
           submitValues = {
-            mobile_no: values.mobile_no!,
+            mobile_no: formattedMobile,
             password: values.password,
             device_name: values.device_name,
             log_type: "mobile_no",
@@ -73,7 +79,7 @@ export default function Login({
         if (response.status === true) {
           toast.success(response.message || "Login Successfully");
           Cookies.set("userToken", response.data.token);
-          router.push("/profile/preview");
+          router.push("/dashboard");
           onClose();
           resetForm();
         }
@@ -189,14 +195,50 @@ export default function Login({
 
               {/* Mobile Field - Show only when mobile tab is active */}
               {activeTab === "mobile" && (
-                <FormInputField
-                  name="mobile_no"
-                  label="Mobile Number"
-                  type="tel"
-                  placeholder="Enter 10-digit mobile number"
-                  required
-                  maxLength={10}
-                />
+                // <FormInputField
+                //   name="mobile_no"
+                //   label="Mobile Number"
+                //   type="tel"
+                //   placeholder="Enter 10-digit mobile number"
+                //   required
+                //   maxLength={10}
+                // />
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-gray-900">
+                    Mobile number:
+                  </label>
+                  <div className="flex items-center mt-2">
+                    <CountrySelect
+                      value={formik.values.country as CountryCode | undefined}
+                      onChange={(code) =>
+                        formik.setFieldValue("country", code, true)
+                      }
+                      className="relative"
+                    />
+                    <div className="relative w-full">
+                      <input
+                        id="mobile_no"
+                        name="mobile_no"
+                        type="tel"
+                        inputMode="tel"
+                        value={formik.values.mobile_no}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, "");
+                          formik.setFieldValue("mobile_no", value);
+                        }}
+                        onBlur={formik.handleBlur}
+                        placeholder="Enter your mobile number"
+                        className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-2"
+                        maxLength={10}
+                      />
+                    </div>
+                  </div>
+                  {formik.touched.mobile_no && formik.errors.mobile_no && (
+                    <div className="mt-1 text-xs text-red-500">
+                      {formik.errors.mobile_no}
+                    </div>
+                  )}
+                </div>
               )}
 
               {/* Password */}

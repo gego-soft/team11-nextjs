@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { setToken } from "@/store/slices/authSlice";
 import { getProfile } from "@/store/slices/authThunks";
+import Cookies from "js-cookie";
 
 export default function AuthInitializer() {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,7 +16,7 @@ export default function AuthInitializer() {
   useEffect(() => {
     const initializeAuth = async () => {
       if (typeof window !== "undefined") {
-        const token = localStorage.getItem("userToken");
+        const token = Cookies.get("userToken");
 
         if (token && !isAuthenticated && !isLoading) {
           // Set token first
@@ -26,7 +27,7 @@ export default function AuthInitializer() {
             await dispatch(getProfile()).unwrap();
           } catch (error) {
             console.log("Failed to fetch profile:", error);
-            localStorage.removeItem("userToken");
+            Cookies.remove("userToken");
           }
         }
       }
