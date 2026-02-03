@@ -1,3 +1,4 @@
+"use client";
 import { FormikProvider, useFormik } from "formik";
 import React from "react";
 import FormInputField from "../Common/Forms/FormInputField";

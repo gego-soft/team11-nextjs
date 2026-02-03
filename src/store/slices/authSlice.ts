@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState } from '@/types/Redux/authTypes';
+import { AuthState, User } from '@/types/Redux/authTypes';
 import { getProfile, loginUser, logoutUser } from './authThunks';
+import Cookies from 'js-cookie';
 
 const initialState: AuthState = {
     user: null,
@@ -19,9 +20,8 @@ const authSlice = createSlice({
             state.user = null;
             state.token = null;
             state.isAuthenticated = false;
-            // Clear from localStorage
             if (typeof window !== 'undefined') {
-                localStorage.removeItem('userToken');
+                Cookies.remove('userToken');
             }
         },
         setToken: (state, action: PayloadAction<string>) => {
@@ -30,6 +30,11 @@ const authSlice = createSlice({
         },
         clearError: (state) => {
             state.error = null;
+        },
+        updateUser: (state, action: PayloadAction<Partial<User>>) => {
+            if (state.user) {
+                state.user = { ...state.user, ...action.payload };
+            }
         },
     },
     extraReducers: (builder) => {
@@ -44,9 +49,8 @@ const authSlice = createSlice({
             state.user = action.payload.data.user;
             state.token = action.payload.data.token;
 
-            // Store in localStorage
             if (typeof window !== 'undefined') {
-                localStorage.setItem('userToken', action.payload.data.token);
+                Cookies.set('userToken', action.payload.data.token);
             }
         });
         builder.addCase(loginUser.rejected, (state, action) => {
@@ -86,9 +90,8 @@ const authSlice = createSlice({
             state.token = null;
             state.isAuthenticated = false;
 
-            // Clear localStorage
             if (typeof window !== 'undefined') {
-                localStorage.removeItem('userToken');
+                Cookies.remove('userToken');
             }
         });
 
@@ -100,5 +103,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout, setToken, clearError } = authSlice.actions;
+export const { logout, setToken, clearError, updateUser } = authSlice.actions;
 export default authSlice.reducer;

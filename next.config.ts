@@ -5,8 +5,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "ui-avatars.com",
-        pathname: "/api/**",
+        hostname: process.env.NEXT_PUBLIC_IMAGE_URI || "your-prod-domain.com",
+
+      },
+      {
+        protocol: "http",
+        hostname: process.env.NEXT_PUBLIC_LOCAL_IMAGE_URI || "your-local-uri",
       },
     ],
   },

@@ -19,7 +19,7 @@ const SponsorField: React.FC<Props> = ({ refSponsor }) => {
   return (
     <div>
       <label className="block mb-2 text-sm font-medium text-gray-900">
-        Sponsor {refSponsor ? "" : "(optional)"}
+        Referral Name {refSponsor ? "" : "(optional)"}
       </label>
 
       {/* Hidden actual submit field */}

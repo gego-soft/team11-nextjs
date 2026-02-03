@@ -7,37 +7,35 @@ import { ServerResponse } from "@/types/ProfileTypes/ProfileType";
 import { AxiosError } from "axios";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import { toast } from "react-toastify";
+import { postBankAccountDetails } from "@/services/BankAccountService/BankAccountService";
+import { useAppDispatch } from "@/store/hooks";
+import { updateUser } from "@/store/slices/authSlice";
 
 const BankAccountDetails = () => {
-
-
   // Formik for Bank Details
+  const dispatch = useAppDispatch();
   const bankFormik = useFormik({
     initialValues: {
-      accountName: "",
-      accountNumber: "",
-      confirmAccountNumber: "",
-      ifscCode: "",
-      bankName: "",
-      branchName: "",
+      account_holder_name: "",
+      account_number: "",
+      // confirmAccountNumber: "",
+      ifsc_code: "",
+      bank_name: "",
+      branch: "",
+      is_primary: "1",
     },
     validationSchema: BankDetailsSchema,
     onSubmit: async (values, { setErrors, resetForm }) => {
       try {
-        // const response = await updateBankDetailsCall({
-        //   accountName: values.accountName,
-        //   accountNumber: values.accountNumber,
-        //   ifscCode: values.ifscCode,
-        //   bankName: values.bankName,
-        //   branchName: values.branchName,
-        // });
-
-        // if (response.status === 200) {
-        //   resetForm();
-        //   toast.success(
-        //     response.data.message || "Bank details updated successfully",
-        //   );
-        // }
+        const response = await postBankAccountDetails(values);
+        console.log("Bank details response:", response);
+        if (response.status === 201) {
+          resetForm();
+          toast.success(
+            response.data.message || "Bank details updated successfully",
+          );
+          dispatch(updateUser({ is_bank: true }));
+        }
       } catch (error) {
         const err = error as AxiosError<ServerResponse>;
         const mappedErrors = mapServerErrors<typeof values>(
@@ -62,18 +60,17 @@ const BankAccountDetails = () => {
 
       <FormikProvider value={bankFormik}>
         <form onSubmit={bankFormik.handleSubmit} className="space-y-4">
-          <FormInputField
-            name="accountName"
-            label="Account Holder Name"
-            type="text"
-            placeholder="Enter account holder name"
-            required
-            maxLength={50}
-          />
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInputField
-              name="accountNumber"
+              name="account_holder_name"
+              label="Account Holder Name"
+              type="text"
+              placeholder="Enter account holder name"
+              required
+              maxLength={50}
+            />
+            <FormInputField
+              name="account_number"
               label="Account Number"
               type="text"
               placeholder="Enter account number"
@@ -82,10 +79,10 @@ const BankAccountDetails = () => {
               onChange={(e) => {
                 // Allow only digits
                 const value = e.target.value.replace(/\D/g, "");
-                bankFormik.setFieldValue("accountNumber", value);
+                bankFormik.setFieldValue("account_number", value);
               }}
             />
-            <FormInputField
+            {/* <FormInputField
               name="confirmAccountNumber"
               label="Confirm Account Number"
               type="text"
@@ -97,12 +94,12 @@ const BankAccountDetails = () => {
                 const value = e.target.value.replace(/\D/g, "");
                 bankFormik.setFieldValue("confirmAccountNumber", value);
               }}
-            />
+            /> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormInputField
-              name="ifscCode"
+              name="ifsc_code"
               label="IFSC Code"
               type="text"
               placeholder="Enter IFSC code"
@@ -112,11 +109,11 @@ const BankAccountDetails = () => {
               onChange={(e) => {
                 // Convert to uppercase
                 const value = e.target.value.toUpperCase();
-                bankFormik.setFieldValue("ifscCode", value);
+                bankFormik.setFieldValue("ifsc_code", value);
               }}
             />
             <FormInputField
-              name="bankName"
+              name="bank_name"
               label="Bank Name"
               type="text"
               placeholder="Enter bank name"
@@ -126,7 +123,7 @@ const BankAccountDetails = () => {
           </div>
 
           <FormInputField
-            name="branchName"
+            name="branch"
             label="Branch Name"
             type="text"
             placeholder="Enter branch name"

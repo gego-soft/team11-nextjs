@@ -16,6 +16,20 @@ export interface User {
     profile_img_url: string;
     referral_name: string;
     referral_link: string;
+    is_bank: boolean,
+    bank_accounts: {
+        id: number,
+        user_id: number,
+        account_number: string,
+        account_holder_name: string,
+        bank_name: string,
+        branch: string,
+        ifsc_code: string,
+        is_primary: boolean,
+        status: boolean,
+        created_at: string,
+        updated_at: string
+    }
 
 
 }

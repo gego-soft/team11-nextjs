@@ -1,3 +1,4 @@
+"use client";
 import { getIn, useField, useFormikContext } from "formik";
 import { Eye, EyeOff, UploadCloud } from "lucide-react";
 import Image from "next/image";
