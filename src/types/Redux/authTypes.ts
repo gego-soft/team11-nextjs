@@ -29,7 +29,10 @@ export interface User {
         status: boolean,
         created_at: string,
         updated_at: string
-    }
+    },
+    balance: number,
+    currency_code: string,
+    currency_symbol: string,
 
 
 }

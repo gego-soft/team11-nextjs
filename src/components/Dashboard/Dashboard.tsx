@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import AddCash from "../MyWallet/AddCash";
+import BalanceComponent from "../MyWallet/BalanceComponent";
 
 function Dashboard({ walletBalance = 1000, hasInvitationBonus = false }) {
   const navigate = useRouter();
@@ -31,22 +32,14 @@ function Dashboard({ walletBalance = 1000, hasInvitationBonus = false }) {
             <div className="dashboard-header">
               <h1>Dashboard</h1>
               <div className="user-balance">
-                <div className="balance-info">
-                  <span className="balance-label">Wallet Balance:</span>
-                  <span className="balance-amount">
-                    ₹{walletBalance.toLocaleString()}
-                  </span>
-                  {hasInvitationBonus && (
-                    <span className="bonus-badge">🎉 +₹5,000 Bonus</span>
-                  )}
-                </div>
                 <button
-                  className="btn btn-add-cash"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 sm:px-5 py-2 rounded-md font-semibold transition-colors text-sm sm:text-base w-full sm:w-auto cursor-pointer"
                   onClick={() => setShowAddCash(true)}
                 >
                   Add Cash
                 </button>
               </div>
+              {/* <BalanceComponent /> */}
             </div>
 
             <div className="dashboard-content">

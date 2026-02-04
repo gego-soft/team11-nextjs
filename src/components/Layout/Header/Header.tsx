@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { RiLockPasswordFill } from "react-icons/ri";
+import BalanceComponent from "@/components/MyWallet/BalanceComponent";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -60,6 +61,9 @@ export default function Header() {
           <nav className="flex gap-4 items-center">
             {isAuthenticated && user ? (
               <div className="flex items-center gap-3">
+                <div>
+                  <BalanceComponent showCashbtn={false} />
+                </div>
                 {/* Welcome Message */}
                 <div className="hidden md:flex items-center gap-2">
                   <span className="text-slate-600 text-sm font-medium">
@@ -84,7 +88,7 @@ export default function Header() {
                           width={40}
                           height={40}
                           className="w-full h-full object-cover"
-                          unoptimized 
+                          unoptimized
                         />
                       ) : (
                         <div className="w-full h-full bg-blue-600 flex items-center justify-center">
@@ -155,7 +159,6 @@ export default function Header() {
                 <Button
                   variant="outline"
                   onClick={() => setActiveModal("register")}
-                  
                 >
                   SIGN UP
                 </Button>
