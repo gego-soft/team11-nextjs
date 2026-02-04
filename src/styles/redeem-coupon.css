@@ -50,7 +50,7 @@
 
 /* Button */
 
-.redeem-form .btn-primary {
+.btn-primary {
   padding: 1rem;
   border-radius: 8px;
   font-size: 1rem;
@@ -58,16 +58,16 @@
   color: white;
   background-color: #2563eb;
   transition: all .3s;
+  cursor: pointer;
 }
 
-.redeem-form .btn-primary:hover:not(:disabled) {
+ .btn-primary:hover:not(:disabled) {
   background-color: #1d4ed8;
   transform: translateY(-1px);
 }
 
-.redeem-form .btn-primary:disabled {
-  opacity: .6;
-  cursor: not-allowed;
+.btn-primary:disabled {
+  @apply from-gray-400 to-gray-500 opacity-60 cursor-not-allowed;
 }
 
 /* Mobile */

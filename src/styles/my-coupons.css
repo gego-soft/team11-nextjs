@@ -1,5 +1,5 @@
 .my-coupons-modal {
-  max-width: 700px;
+  max-width: 600px;
   max-height: 85vh;
 }
 
@@ -18,22 +18,6 @@
 .coupon-filters {
   @apply flex gap-3 pb-4;
   border-bottom: 2px solid #e5e7eb;
-}
-
-.filter-btn {
-  @apply flex-1 py-3 rounded-lg text-gray-500 font-semibold text-[0.9rem] transition-all cursor-pointer;
-  background: #f3f4f6;
-  border: none;
-}
-
-.filter-btn:hover {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-.filter-btn.active {
-  background: #2563eb;
-  color: white;
 }
 
 /* Coupons List */
@@ -78,7 +62,7 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, .1);
 }
 
-.coupon-card.used {
+.coupon-card.redeemed {
   background: #fafafa;
   opacity: .8;
 }
@@ -126,12 +110,12 @@
   white-space: nowrap;
 }
 
-.status-badge.used {
+.status-badge.redeemed {
   background: #d1fae5;
   color: #065f46;
 }
 
-.status-badge.unused {
+.status-badge.new {
   background: #fef3c7;
   color: #92400e;
 }

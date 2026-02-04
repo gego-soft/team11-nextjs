@@ -64,19 +64,6 @@
     box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
 }
 
-.redeem-form .btn-primary {
-    @apply bg-blue-600 text-white p-3 rounded-lg font-bold text-[.95rem] transition-all;
-}
-
-.redeem-form .btn-primary:hover:not(:disabled) {
-    @apply bg-blue-700;
-    transform: translateY(-1px);
-}
-
-.redeem-form .btn-primary:disabled {
-    @apply opacity-60 cursor-not-allowed;
-}
-
 /* Bank Transfer */
 
 .bank-transfer-section {

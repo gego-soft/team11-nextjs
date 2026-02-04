@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { GenerateCouponSchema } from "@/validations/MyWallet/coupons";
 import { GenerateCouponValues } from "@/types/MyWallet/coupons";
 import { CouponService } from "@/services/MyWallet/coupons";
+import Button from "../Button";
 
 export default function GenerateCoupon({ onClose }: ModalProps) {
   const formik = useFormik<GenerateCouponValues>({
@@ -88,30 +89,22 @@ export default function GenerateCoupon({ onClose }: ModalProps) {
                     label="Coupon Amount (₹)"
                     name="coupon_amount"
                     type="number"
+                    placeholder="Enter Coupon amount"
                   />
                   <FormInputField
                     label="Number of Coupons"
                     name="num_coupon"
                     type="number"
+                    placeholder="Enter number of coupons to generate"
                   />
                 </div>
-                <button
-                  className="btn btn-primary"
-                  style={{
-                    backgroundColor: "#2563eb",
-                    color: "white",
-                    padding: "0.875rem",
-                    borderRadius: "8px",
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
+                <Button
+                  variant="btnprimary"
                   onClick={() => formik.handleSubmit()}
                   disabled={formik.isSubmitting || !formik.isValid}
                 >
                   {formik.isSubmitting ? "Generating..." : "Generate Coupon"}
-                </button>
+                </Button>
               </FormikProvider>
             </div>
           </div>

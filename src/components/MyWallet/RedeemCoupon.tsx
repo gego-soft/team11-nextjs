@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { RedeemCouponSchema } from "@/validations/MyWallet/coupons";
 import { FormikProvider, useFormik } from "formik";
 import FormInputField from "../Common/Forms/FormInputField";
+import Button from "../Button";
 
 export default function RedeemCoupon({ onClose }: ModalProps) {
   const formik = useFormik<RedeemCouponValues>({
@@ -66,16 +67,20 @@ export default function RedeemCoupon({ onClose }: ModalProps) {
               />
             </div> */}
             <FormikProvider value={formik}>
-              <FormInputField label="Coupon Code" name="code" type="text" />
+              <FormInputField
+                label="Coupon Code"
+                name="code"
+                type="text"
+                placeholder="ENTER COUPON CODE"
+              />
             </FormikProvider>
-            <button
-              type="submit"
-              className="btn btn-primary"
+            <Button
+              variant="btnprimary"
               onClick={() => formik.handleSubmit()}
               disabled={formik.isSubmitting || !formik.isValid}
             >
               {formik.isSubmitting ? "Redeeming..." : "Redeem Coupon"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -106,7 +106,8 @@
 }
 
 .filter-btn {
-  @apply px-4 py-2 rounded-lg border-2 bg-white text-gray-500 font-semibold text-sm transition-all cursor-pointer;
+  @apply flex-1 py-3 rounded-lg text-gray-500 font-semibold text-[0.9rem] transition-all cursor-pointer;
+    background: #f3f4f6;
   border-color: #e5e7eb;
 }
 

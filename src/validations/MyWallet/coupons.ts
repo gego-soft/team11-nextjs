@@ -8,6 +8,7 @@ export const GenerateCouponSchema = Yup.object().shape({
 
   num_coupon: Yup.number()
     .min(1, "Number of coupons must be at least 1")
+    .positive("Number of coupons must be greater than 0.")
     .required("Number of coupons is required"),
 });
 export const RedeemCouponSchema = Yup.object().shape({

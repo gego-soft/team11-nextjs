@@ -1,61 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalProps } from "@/types/modal";
-
-type CouponStatus = "used" | "unused";
-
-interface Coupon {
-  id: number;
-  code: string;
-  amount: number;
-  createdDate: string;
-  usedBy: string | null;
-  usedDate: string | null;
-  status: CouponStatus;
-}
-
-type FilterType = "all" | "used" | "unused";
+import { FilterType, GetCouponListValues } from "@/types/MyWallet/coupons";
+import { CouponService } from "@/services/MyWallet/coupons";
+import BallLoader from "../Common/BallLoader";
+import { toast } from "react-toastify";
 
 export default function MyCoupons({ onClose }: ModalProps) {
-  const [coupons] = useState<Coupon[]>([
-    {
-      id: 1,
-      code: "IPL2025ABC",
-      amount: 500,
-      createdDate: "2025-12-04",
-      usedBy: "Rahul Kumar",
-      usedDate: "2025-12-04",
-      status: "used",
-    },
-    {
-      id: 2,
-      code: "IPL2025XYZ",
-      amount: 1000,
-      createdDate: "2025-12-03",
-      usedBy: null,
-      usedDate: null,
-      status: "unused",
-    },
-    {
-      id: 3,
-      code: "IPL2025DEF",
-      amount: 500,
-      createdDate: "2025-12-02",
-      usedBy: "Priya Sharma",
-      usedDate: "2025-12-03",
-      status: "used",
-    },
-    {
-      id: 4,
-      code: "IPL2025GHI",
-      amount: 750,
-      createdDate: "2025-12-01",
-      usedBy: null,
-      usedDate: null,
-      status: "unused",
-    },
-  ]);
+  const [coupons, setCoupons] = useState<GetCouponListValues[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      setLoading(true);
+      try {
+        const res = await CouponService.getCouponList();
+        if (!res.data.success) {
+          console.error(res.data.message);
+        }
+        setCoupons(res.data.data);
+      } catch (err) {
+        console.error("Failed to fetch coupons", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCoupons();
+  }, []);
 
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -65,7 +36,7 @@ export default function MyCoupons({ onClose }: ModalProps) {
 
   const copyCouponCode = async (code: string) => {
     await navigator.clipboard.writeText(code);
-    alert(`Coupon code ${code} copied!`);
+    toast.success(`Coupon code ${code} copied!`);
   };
 
   return (
@@ -88,61 +59,65 @@ export default function MyCoupons({ onClose }: ModalProps) {
               All ({coupons.length})
             </button>
             <button
-              className={`filter-btn ${filter === "unused" ? "active" : ""}`}
-              onClick={() => setFilter("unused")}
+              className={`filter-btn ${filter === "new" ? "active" : ""}`}
+              onClick={() => setFilter("new")}
             >
-              Unused ({coupons.filter((c) => c.status === "unused").length})
+              Unused ({coupons.filter((c) => c.status === "new").length})
             </button>
             <button
-              className={`filter-btn ${filter === "used" ? "active" : ""}`}
-              onClick={() => setFilter("used")}
+              className={`filter-btn ${filter === "redeemed" ? "active" : ""}`}
+              onClick={() => setFilter("redeemed")}
             >
-              Used ({coupons.filter((c) => c.status === "used").length})
+              Used ({coupons.filter((c) => c.status === "redeemed").length})
             </button>
           </div>
 
           <div className="coupons-list">
             {filteredCoupons.length === 0 ? (
               <div className="empty-state">
-                <p>No coupons found</p>
+                <p>{loading ? "Loading..." : "No coupons found"}</p>
               </div>
             ) : (
-              filteredCoupons.map((coupon) => (
-                <div key={coupon.id} className={`coupon-card ${coupon.status}`}>
+              filteredCoupons.map((coupon, index) => (
+                <div key={index} className={`coupon-card ${coupon.status}`}>
                   <div className="coupon-header">
                     <div className="coupon-code-section">
-                      <span className="coupon-code">{coupon.code}</span>
+                      <span className="coupon-code">{coupon.coupon_code}</span>
                       <button
                         className="copy-code-btn"
-                        onClick={() => copyCouponCode(coupon.code)}
+                        onClick={() => copyCouponCode(coupon.coupon_code)}
                       >
                         📋
                       </button>
                     </div>
                     <span className={`status-badge ${coupon.status}`}>
-                      {coupon.status === "used" ? "✓ Used" : "● Unused"}
+                      {coupon.status === "redeemed" ? "✓ Used" : "● Unused"}
                     </span>
                   </div>
 
                   <div className="coupon-details">
                     <div className="detail-item">
                       <span className="detail-label">Amount:</span>
-                      <span className="detail-value">₹{coupon.amount}</span>
+                      <span className="detail-value">
+                        ₹{coupon.coupon_value}
+                      </span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Created:</span>
-                      <span className="detail-value">{coupon.createdDate}</span>
+                      <span className="detail-value">{coupon.created_at}</span>
                     </div>
-                    {coupon.status === "used" && (
+                    {coupon.status === "redeemed" && (
                       <>
                         <div className="detail-item">
                           <span className="detail-label">Used by:</span>
-                          <span className="detail-value">{coupon.usedBy}</span>
+                          <span className="detail-value">
+                            {coupon.redeemed_by_name}
+                          </span>
                         </div>
                         <div className="detail-item">
                           <span className="detail-label">Used on:</span>
                           <span className="detail-value">
-                            {coupon.usedDate}
+                            {coupon.redeemed_at}
                           </span>
                         </div>
                       </>
