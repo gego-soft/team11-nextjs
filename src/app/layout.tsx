@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 import AuthInitializer from "@/components/AuthInitializer";
+import { BalanceProvider } from "@/context/BalanceContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
+           <BalanceProvider>
           <AuthInitializer />
           <Header />
           <ToastContainer position="top-right" autoClose={3000} />
@@ -45,6 +47,7 @@ export default function RootLayout({
           </div>
 
           <Footer />
+          </BalanceProvider>
         </ReduxProvider>
       </body>
     </html>

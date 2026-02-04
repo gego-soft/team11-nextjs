@@ -67,5 +67,8 @@ export interface UserData {
         status: boolean,
         created_at: string,
         updated_at: string
-    }
+    },
+    currency_code: string,
+    currency_symbol: string,
+
 }
