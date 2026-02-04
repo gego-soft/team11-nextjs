@@ -7,9 +7,9 @@ import { ServerResponse } from "@/types/ProfileTypes/ProfileType";
 import { AxiosError } from "axios";
 import { mapServerErrors } from "@/utils/mapServerErrors";
 import { toast } from "react-toastify";
-import { postBankAccountDetails } from "@/services/BankAccountService/BankAccountService";
 import { useAppDispatch } from "@/store/hooks";
 import { updateUser } from "@/store/slices/authSlice";
+import { BankAccountService } from "@/services/BankAccountService/BankAccountService";
 
 const BankAccountDetails = () => {
   // Formik for Bank Details
@@ -27,7 +27,7 @@ const BankAccountDetails = () => {
     validationSchema: BankDetailsSchema,
     onSubmit: async (values, { setErrors, resetForm }) => {
       try {
-        const response = await postBankAccountDetails(values);
+        const response = await BankAccountService.postBankAccountDetails(values);
         console.log("Bank details response:", response);
         if (response.status === 201) {
           resetForm();

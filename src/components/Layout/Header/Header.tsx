@@ -16,6 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 import { RiLockPasswordFill } from "react-icons/ri";
 import BalanceComponent from "@/components/MyWallet/BalanceComponent";
+import { MdPrivacyTip } from "react-icons/md";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -140,6 +141,14 @@ export default function Header() {
                         >
                           <RiLockPasswordFill className="text-slate-500" />
                           Change Password
+                        </Link>
+                        <Link
+                          href="/kyc"
+                          className="flex items-center gap-3 px-4 py-3 text-left text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors text-sm font-medium no-underline border-none bg-transparent w-full cursor-pointer"
+                          onClick={() => setShowDropdown(false)}
+                        >
+                          <MdPrivacyTip className="text-slate-500" />
+                          Update KYC
                         </Link>
 
                         <button

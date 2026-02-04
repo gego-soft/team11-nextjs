@@ -257,6 +257,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
         />
       ) : type === "select" ? (
         <Select
+          instanceId={`select-${field.name}`}
           name={field.name}
           options={options}
           value={options.find((opt) => opt.value === field.value) || null}
@@ -285,6 +286,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
       ) : type === "multiselect" ? (
         <Select
           isMulti
+          instanceId={`multiselect-${field.name}`}
           name={field.name}
           options={options}
           value={options.filter((opt) => field.value?.includes(opt.value))}
@@ -457,6 +459,8 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
                             src={previews[index]}
                             alt={`preview-${index}`}
                             className="w-32 h-32 object-cover rounded"
+                            width={128}
+                            height={128}
                           />
                           <span className="block mt-1 text-gray-700">
                             {file.name}
@@ -489,6 +493,8 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
                       src={previews[0]}
                       alt="preview"
                       className="w-32 h-32 object-cover rounded"
+                      width={128}
+                      height={128}
                     />
                     <span className="block mt-1 text-gray-700">
                       {field.value.name}
@@ -516,7 +522,7 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
           type="date"
           name={field.name}
           min={minDate}
-          max={maxDate}
+          // max={maxDate}
           id={field.name}
           value={
             field.value
