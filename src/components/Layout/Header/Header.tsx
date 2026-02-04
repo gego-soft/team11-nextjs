@@ -12,17 +12,20 @@ import {
   FaSignOutAlt,
   FaChevronDown,
   FaChevronUp,
+  FaBars,
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { RiLockPasswordFill } from "react-icons/ri";
 import BalanceComponent from "@/components/MyWallet/BalanceComponent";
 import { MdPrivacyTip } from "react-icons/md";
+import { useSidebar } from "@/context/SidebarContext";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeModal, setActiveModal] = useState<
     "login" | "register" | "forgot" | null
   >(null);
+  const { toggleSidebar } = useSidebar();
   const router = useRouter();
 
   // Use Redux auth hook
@@ -43,12 +46,16 @@ export default function Header() {
     setActiveModal(null);
     setShowDropdown(false);
   };
-
+  console.log("Header - toggleSidebar function exists:", !!toggleSidebar);
   return (
     <>
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-[96%] mx-auto py-4 md:px-8 px-3 flex justify-between items-center">
-          <Link href="/" className="no-underline" onClick={closeAllModals}>
+          <Link
+            href="/"
+            className="no-underline hidden md:block"
+            onClick={closeAllModals}
+          >
             <div className="flex flex-col gap-0.5 relative">
               <h2 className="bg-linear-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent text-2xl font-extrabold m-0 leading-tight tracking-tight relative">
                 Team 11
@@ -58,6 +65,18 @@ export default function Header() {
               </span>
             </div>
           </Link>
+          <button
+            className="lg:hidden p-2 text-gray-600 hover:text-blue-600"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log("Hamburger button clicked"); // Debug log
+              console.log("Calling toggleSidebar function"); // Debug log
+              toggleSidebar();
+              console.log("toggleSidebar called, state should update"); // Debug log
+            }}
+          >
+            <FaBars size={24} />
+          </button>
 
           <nav className="flex gap-4 items-center">
             {isAuthenticated && user ? (
