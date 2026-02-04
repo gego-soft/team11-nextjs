@@ -5,6 +5,7 @@
 .modal-content {
     @apply bg-white rounded-xl px-6 py-5 max-w-187.5 w-full max-h-[90vh] overflow-y-auto relative;
     box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    width: 500px
 }
 
 .add-cash-modal h2 {

@@ -23,12 +23,6 @@ export default function MyWallet() {
         <div className="wallet-container">
           <div className="wallet-header">
             <h1>My Wallet</h1>
-            <div className="wallet-balance-card">
-              <span className="balance-label">Available Balance</span>
-              <span className="balance-amount">
-                ₹{walletBalance.toLocaleString()}
-              </span>
-            </div>
           </div>
 
           <div className="wallet-actions">

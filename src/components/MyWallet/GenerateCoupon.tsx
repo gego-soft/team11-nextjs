@@ -23,6 +23,7 @@ export default function GenerateCoupon({ onClose }: ModalProps) {
         const response = await CouponService.createCoupon(values);
         resetForm();
         toast.success(response.data.message || "Coupon generated Successfully");
+        window.dispatchEvent(new CustomEvent("refreshBalance"));
         onClose();
       } catch (error) {
         const err = error as AxiosError<{

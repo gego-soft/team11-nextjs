@@ -21,6 +21,7 @@ export const useAuth = () => {
 
 
             Cookies.remove("userToken");
+            Cookies.remove("sponsor");
             router.push("/");
             toast.success(response?.message || "Logged out successfully");
 
