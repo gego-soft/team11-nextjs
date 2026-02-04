@@ -79,18 +79,8 @@ export const BalanceProvider = ({
     // Custom event listener
     window.addEventListener("refreshBalance", handleBalanceRefresh);
 
-    // Message listener for iframe/postMessage scenarios
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data.type === "balanceUpdated") {
-        fetchBalance();
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-
     return () => {
       window.removeEventListener("refreshBalance", handleBalanceRefresh);
-      window.removeEventListener("message", handleMessage);
     };
   }, [fetchBalance]);
 

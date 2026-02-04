@@ -1,29 +1,17 @@
 "use client";
-import { BankContactService } from "@/services/BankAccountService/bankTransfer";
+
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { getContactInfo } from "@/store/slices/contact/contactThunks";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
 const BankTransfer = () => {
-  const hasFetched = useRef(false);
-  const [whatsapp, setWhatsapp] = useState("");
-  const [telegram, setTelegram] = useState("");
-  const fetchContactDetails = async () => {
-    try {
-      const response = await BankContactService.bankTransferContact();
-      if (response.data.success) {
-        setWhatsapp(response.data.whatsapp_url);
-        setTelegram(response.data.telegram_url);
-      }
-    } catch (err: any) {
-      console.error(err.message);
-    }
-  };
+  const dispatch = useAppDispatch();
+  const { data: contact, loading } = useAppSelector((state) => state.contact);
+
   useEffect(() => {
-    if (!hasFetched.current) {
-      hasFetched.current = true;
-      fetchContactDetails();
-    }
-  }, []);
+    dispatch(getContactInfo());
+  }, [dispatch]);
   return (
     <div className="bank-transfer-section">
       <div className="bank-info">
@@ -44,11 +32,19 @@ const BankTransfer = () => {
       </div>
 
       <div className="contact-buttons">
-        <Link href={`${whatsapp}`} target="_blank" className="btn btn-whatsapp">
+        <Link
+          href={`${contact?.whatsapp_url}`}
+          target="_blank"
+          className="btn btn-whatsapp"
+        >
           💬 Contact on WhatsApp
         </Link>
 
-        <Link href={`${telegram}`} target="_blank" className="btn btn-telegram">
+        <Link
+          href={`${contact?.telegram_url}`}
+          target="_blank"
+          className="btn btn-telegram"
+        >
           ✈️ Contact on Telegram
         </Link>
       </div>
