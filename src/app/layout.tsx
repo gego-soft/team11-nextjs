@@ -8,6 +8,7 @@ import Sidebar from "@/components/Sidebar/Sidebar";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 import AuthInitializer from "@/components/AuthInitializer";
 import { BalanceProvider } from "@/context/BalanceContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
       >
         <ReduxProvider>
            <BalanceProvider>
+              <SidebarProvider>
           <AuthInitializer />
           <Header />
           <ToastContainer position="top-right" autoClose={3000} />
@@ -47,6 +49,7 @@ export default function RootLayout({
           </div>
 
           <Footer />
+          </SidebarProvider>
           </BalanceProvider>
         </ReduxProvider>
       </body>
