@@ -160,7 +160,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
               <div>
                 <p className="text-sm text-gray-800">Referral Name</p>
                 <p className="text-lg font-bold text-gray-900 ">
-                  {userData.referral_name || userData.name}
+                  {userData.referral_name || "N/A"}
                 </p>
               </div>
               <div>
@@ -172,13 +172,12 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
                 </div>
                 <div className="flex items-center">
                   <code className="bg-white px-3 py-2 rounded border text-sm text-gray-800 font-mono break-all">
-                    {/* {window.location.origin} */}
                     {userData.referral_link}
                   </code>
                   <button
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        `${window.location.origin}${userData.referral_link}`,
+                        `${userData.referral_link}`,
                       );
                       toast.success("Referral link copied!");
                     }}
