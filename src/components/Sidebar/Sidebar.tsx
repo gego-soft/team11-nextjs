@@ -2,40 +2,15 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect } from "react";
-import { useSidebar } from "@/context/SidebarContext"; // Add this import
+import { useSidebar } from "@/context/SidebarContext"; 
 
 function Sidebar() {
   const pathname = usePathname();
   const { user, isAuthenticated } = useAuth();
-  const { isOpen, closeSidebar } = useSidebar(); // Get from context
+  const { isOpen, closeSidebar } = useSidebar(); 
 
-  // Close sidebar when route changes
-  // useEffect(() => {
-  //   closeSidebar();
-  // }, [pathname, closeSidebar]);
 
-  // Add these debug logs
-  console.log("Sidebar - isOpen state:", isOpen);
-  console.log("Sidebar - closeSidebar function exists:", !!closeSidebar);
 
-  // Close sidebar when clicking outside (for mobile)
-  // useEffect(() => {
-  //   const handleClickOutside = (e: MouseEvent) => {
-  //     const sidebar = document.getElementById("mobile-sidebar");
-  //     if (isOpen && sidebar && !sidebar.contains(e.target as Node)) {
-  //       closeSidebar();
-  //     }
-  //   };
-
-  //   if (isOpen) {
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [isOpen, closeSidebar]);
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard" },

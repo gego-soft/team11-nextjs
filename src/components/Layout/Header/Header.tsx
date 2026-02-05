@@ -46,14 +46,13 @@ export default function Header() {
     setActiveModal(null);
     setShowDropdown(false);
   };
-  console.log("Header - toggleSidebar function exists:", !!toggleSidebar);
   return (
     <>
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-[96%] mx-auto py-4 md:px-8 px-3 flex justify-between items-center">
           <Link
             href="/"
-            className="no-underline hidden md:block"
+            className="no-underline hidden lg:block"
             onClick={closeAllModals}
           >
             <div className="flex flex-col gap-0.5 relative">
@@ -69,10 +68,8 @@ export default function Header() {
             className="lg:hidden p-2 text-gray-600 hover:text-blue-600"
             onClick={(e) => {
               e.stopPropagation();
-              console.log("Hamburger button clicked"); // Debug log
-              console.log("Calling toggleSidebar function"); // Debug log
+
               toggleSidebar();
-              console.log("toggleSidebar called, state should update"); // Debug log
             }}
           >
             <FaBars size={24} />

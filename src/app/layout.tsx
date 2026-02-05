@@ -36,20 +36,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-           <BalanceProvider>
-              <SidebarProvider>
-          <AuthInitializer />
-          <Header />
-          <ToastContainer position="top-right" autoClose={3000} />
+          <BalanceProvider>
+            <SidebarProvider>
+              <AuthInitializer />
+              <Header />
+              <ToastContainer position="top-right" autoClose={3000} />
 
-          <div className="flex lg:flex-row flex-col min-h-[calc(100vh-72px)]">
-            <Sidebar />
+              <div className="flex lg:flex-row flex-col min-h-[calc(100vh-72px)]">
+                <Sidebar />
 
-            <main className="flex-1">{children}</main>
-          </div>
+                <main className="flex-1">{children}</main>
+              </div>
 
-          <Footer />
-          </SidebarProvider>
+              <Footer />
+            </SidebarProvider>
           </BalanceProvider>
         </ReduxProvider>
       </body>
