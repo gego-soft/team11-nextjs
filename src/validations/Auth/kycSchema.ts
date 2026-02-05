@@ -15,10 +15,20 @@ export const KycValidationSchema = Yup.object().shape({
 
     document_expiry_date: Yup.date()
         .nullable()
-        .test("is-future", "Document must not be expired", function (value) {
-            if (!value) return true; // Optional field
-            return new Date(value) > new Date();
+        .when("document_type", {
+            is: (docType: string) =>
+                docType === "passport" || docType === "driving_license",
+            then: (schema) =>
+                schema
+                    .required("Document expiry date is required")
+                    .test(
+                        "is-future",
+                        "Document must not be expired",
+                        (value) => !!value && new Date(value) > new Date()
+                    ),
+            otherwise: (schema) => schema.nullable().notRequired(),
         }),
+
 
     document_front_image: Yup.mixed<File>()
         .required("Front image is required")

@@ -28,7 +28,6 @@ export default function Header() {
   const { toggleSidebar } = useSidebar();
   const router = useRouter();
 
-  // Use Redux auth hook
   const { user, isAuthenticated, logout } = useAuth();
 
   const toggleDropdown = () => {
@@ -52,7 +51,7 @@ export default function Header() {
         <div className="max-w-[96%] mx-auto py-4 md:px-8 px-3 flex justify-between items-center">
           <Link
             href="/"
-            className="no-underline hidden lg:block"
+            className={`no-underline ${!isAuthenticated ? "" : "hidden"} lg:block`}
             onClick={closeAllModals}
           >
             <div className="flex flex-col gap-0.5 relative">
@@ -64,16 +63,19 @@ export default function Header() {
               </span>
             </div>
           </Link>
-          <button
-            className="lg:hidden p-2 text-gray-600 hover:text-blue-600"
-            onClick={(e) => {
-              e.stopPropagation();
 
-              toggleSidebar();
-            }}
-          >
-            <FaBars size={24} />
-          </button>
+          {isAuthenticated && (
+            <button
+              className="lg:hidden p-2 text-gray-600 hover:text-blue-600"
+              onClick={(e) => {
+                e.stopPropagation();
+
+                toggleSidebar();
+              }}
+            >
+              <FaBars size={24} />
+            </button>
+          )}
 
           <nav className="flex gap-4 items-center">
             {isAuthenticated && user ? (

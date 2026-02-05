@@ -46,10 +46,12 @@ export default function Registration({
         };
 
         const response = await AuthService.register(formattedValues);
+        console.log("Registration successful:", response);
         onClose();
         resetForm();
         toast.success(response.data.message || "Registered Successfully");
       } catch (error) {
+        console.log("Registration error:", error);
         const err = error as AxiosError<{
           message: string;
           errors?: Record<string, string[]>;

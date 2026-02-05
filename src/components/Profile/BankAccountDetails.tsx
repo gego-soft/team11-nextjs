@@ -27,7 +27,8 @@ const BankAccountDetails = () => {
     validationSchema: BankDetailsSchema,
     onSubmit: async (values, { setErrors, resetForm }) => {
       try {
-        const response = await BankAccountService.postBankAccountDetails(values);
+        const response =
+          await BankAccountService.postBankAccountDetails(values);
         console.log("Bank details response:", response);
         if (response.status === 201) {
           resetForm();
@@ -135,7 +136,7 @@ const BankAccountDetails = () => {
             type="submit"
             variant="primary"
             className="px-6 py-2.5"
-            disabled={bankFormik.isSubmitting}
+            disabled={bankFormik.isSubmitting || !bankFormik.isValid}
           >
             {bankFormik.isSubmitting ? "Saving..." : "Save Bank Details"}
           </Button>

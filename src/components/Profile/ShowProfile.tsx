@@ -18,9 +18,6 @@ interface ShowProfileProps {
 }
 
 const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
- 
-   
-
   return (
     <div className="p-6">
       {/* Profile Picture & Basic Info */}
@@ -63,8 +60,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
           </p>
         </div>
       </div> */}
-           <ProfileImage userData={userData} 
-        />
+      <ProfileImage userData={userData} />
 
       {/* Contact Information Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -163,7 +159,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <p className="text-sm text-gray-800">Referral Name</p>
-                <p className="text-lg font-bold text-gray-900 capitalize">
+                <p className="text-lg font-bold text-gray-900 ">
                   {userData.referral_name || userData.name}
                 </p>
               </div>
@@ -186,7 +182,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
                       );
                       toast.success("Referral link copied!");
                     }}
-                    className="ml-3 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                    className="ml-3 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm cursor-pointer"
                   >
                     Copy
                   </button>

@@ -98,6 +98,7 @@ import { UserData } from "@/types/Auth/authTypes";
 import { FaEdit } from "react-icons/fa";
 import { updateUser } from "@/store/slices/authSlice";
 import { useAppDispatch } from "@/store/hooks";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ProfileImageProps {
   userData: UserData;
@@ -109,6 +110,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ userData, onUpdate }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  const { user } = useAuth();
   // Get initials for avatar
   const getInitials = (name: string) => {
     if (!name) return "U";
@@ -130,7 +132,6 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ userData, onUpdate }) => {
     });
   };
 
-  // Handle avatar upload
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -159,7 +160,6 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ userData, onUpdate }) => {
     try {
       const response = await ProfileService.updateProfileImage(file);
 
-      // Call parent callback if needed to update userData
       if (onUpdate && response.data) {
         onUpdate(response.data);
       }
@@ -179,7 +179,6 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ userData, onUpdate }) => {
       setAvatarPreview(null);
     } finally {
       setIsUploading(false);
-      // Clear file input
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -188,14 +187,8 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ userData, onUpdate }) => {
 
   // Determine which image to show
   const showImage = () => {
-    if (avatarPreview) {
-      return avatarPreview;
-    }
-    if (
-      userData.profile_img_url &&
-      userData.profile_img_url !== "http://team11.test/storage"
-    ) {
-      return `${userData.profile_img_url}`;
+    if (user?.profile_img_url) {
+      return `${user?.profile_img_url}`;
     }
     return null;
   };

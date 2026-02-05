@@ -1,91 +1,85 @@
 "use client";
-
-import { useState, useMemo } from "react";
-import type { Transaction } from "@/types/MyWallet/transaction";
-
-const allTransactions: Transaction[] = [
-  {
-    id: 1,
-    type: "credit",
-    amount: 5000,
-    description: "Invitation Bonus",
-    subtext: "Welcome bonus for joining",
-    date: "2025-12-04",
-    time: "10:30 AM",
-  },
-  {
-    id: 2,
-    type: "credit",
-    amount: 500,
-    description: "Referral Bonus",
-    subtext: "User: @rahul_cricket",
-    date: "2025-12-04",
-    time: "09:15 AM",
-  },
-  {
-    id: 3,
-    type: "debit",
-    amount: 500,
-    description: "Contest Entry Fee",
-    subtext: "Team: My Champions XI",
-    date: "2025-12-04",
-    time: "07:20 AM",
-  },
-  {
-    id: 4,
-    type: "credit",
-    amount: 2000,
-    description: "Contest Winnings",
-    date: "2025-12-03",
-    time: "11:30 PM",
-  },
-  {
-    id: 5,
-    type: "debit",
-    amount: 1000,
-    description: "Withdrawal to Bank",
-    subtext: "HDFC • ****5678",
-    date: "2025-12-02",
-    time: "05:30 PM",
-  },
-  {
-    id: 6,
-    type: "credit",
-    amount: 3000,
-    description: "Bank Deposit",
-    date: "2025-12-02",
-    time: "09:30 AM",
-  },
-  {
-    id: 7,
-    type: "debit",
-    amount: 300,
-    description: "Contest Entry Fee",
-    date: "2025-12-01",
-    time: "10:15 PM",
-  },
-  {
-    id: 8,
-    type: "credit",
-    amount: 750,
-    description: "Contest Winnings",
-    date: "2025-12-01",
-    time: "08:45 PM",
-  },
-];
-
-type FilterType = "all" | "credit" | "debit";
+import { useState, useMemo, useEffect } from "react";
+import type {
+  ApiResponse,
+  FilterType,
+  Transaction,
+} from "@/types/MyWallet/transaction";
+import { TransactionHistoryService } from "@/services/MyWallet/transactionHistory";
+import BallLoader from "../Common/BallLoader";
 
 export default function TransactionHistory() {
   const [filterType, setFilterType] = useState<FilterType>("all");
   const [currentPage, setCurrentPage] = useState(1);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const transactionsPerPage = 5;
 
+  // Fetch transactions from API
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const response = await TransactionHistoryService.getUserTransactions();
+      const apiData = response.data as ApiResponse;
+
+      if (apiData.success && apiData.data) {
+        // Transform API data to match Transaction type
+        const transformedTransactions: Transaction[] = apiData.data.map(
+          (item) => {
+            // Parse the date string (format: "05-02-2026 05:31:52")
+            const [datePart, timePart] = item.created_at.split(" ");
+            const [day, month, year] = datePart.split("-");
+
+            // Format date to "2026-02-05" for consistency
+            const formattedDate = `${year}-${month}-${day}`;
+
+            // Format time to "05:31 AM"
+            const [hours, minutes] = timePart.split(":");
+            const hourNum = parseInt(hours);
+            const ampm = hourNum >= 12 ? "PM" : "AM";
+            const formattedHour = hourNum % 12 || 12;
+            const formattedTime = `${formattedHour}:${minutes} ${ampm}`;
+
+            return {
+              id: item.id,
+              type: item.trans_type as "credit" | "debit",
+              amount: parseFloat(item.amount),
+              description: item.comment,
+              subtext:
+                item.transaction_action === "bonus"
+                  ? "Welcome bonus for joining"
+                  : item.gateway && item.gateway !== "wallet"
+                    ? `${item.gateway} • ${item.trans_id.slice(-4)}`
+                    : `Transaction ID: ${item.trans_id}`,
+              date: formattedDate,
+              time: formattedTime,
+            };
+          },
+        );
+
+        setTransactions(transformedTransactions);
+      } else {
+        setError("Failed to fetch transactions");
+      }
+    } catch (err) {
+      console.error("Error fetching transactions:", err);
+      setError("An error occurred while fetching transactions");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const filteredTransactions = useMemo(() => {
-    if (filterType === "all") return allTransactions;
-    return allTransactions.filter((t) => t.type === filterType);
-  }, [filterType]);
+    if (filterType === "all") return transactions;
+    return transactions.filter((t) => t.type === filterType);
+  }, [transactions, filterType]);
 
   const totalPages = Math.ceil(
     filteredTransactions.length / transactionsPerPage,
@@ -101,6 +95,45 @@ export default function TransactionHistory() {
     setCurrentPage(1);
   };
 
+  // Count transactions by type
+  const creditCount = transactions.filter((t) => t.type === "credit").length;
+  const debitCount = transactions.filter((t) => t.type === "debit").length;
+
+  if (isLoading) {
+    return (
+      <div className="transactions-section flex justify-center items-center">
+        <BallLoader />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="transactions-section">
+        <div className="transactions-header">
+          <h2>Transaction History</h2>
+        </div>
+        <div className="error-state">
+          <p>{error}</p>
+          <button onClick={fetchTransactions} className="retry-btn">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (transactions.length === 0) {
+    return (
+      <div className="transactions-section">
+        <div className="transactions-header">
+          <h2>Transaction History</h2>
+        </div>
+        <div className="empty-state">No transactions found</div>
+      </div>
+    );
+  }
+
   return (
     <div className="transactions-section">
       <div className="transactions-header">
@@ -110,19 +143,19 @@ export default function TransactionHistory() {
             className={`filter-btn ${filterType === "all" ? "active" : ""}`}
             onClick={() => handleFilterChange("all")}
           >
-            All ({allTransactions.length})
+            All ({transactions.length})
           </button>
           <button
             className={`filter-btn ${filterType === "credit" ? "active" : ""}`}
             onClick={() => handleFilterChange("credit")}
           >
-            Credit ({allTransactions.filter((t) => t.type === "credit").length})
+            Credit ({creditCount})
           </button>
           <button
             className={`filter-btn ${filterType === "debit" ? "active" : ""}`}
             onClick={() => handleFilterChange("debit")}
           >
-            Debit ({allTransactions.filter((t) => t.type === "debit").length})
+            Debit ({debitCount})
           </button>
         </div>
       </div>

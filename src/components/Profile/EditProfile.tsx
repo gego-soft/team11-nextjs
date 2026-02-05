@@ -225,7 +225,9 @@ export default function EditProfile({
                 type="submit"
                 variant="primary"
                 className="flex-1"
-                disabled={formik.isSubmitting}
+                disabled={
+                  formik.isSubmitting || !formik.isValid || !formik.dirty
+                }
               >
                 {formik.isSubmitting ? "Updating..." : "Update Profile"}
               </Button>

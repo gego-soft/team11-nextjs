@@ -10,7 +10,6 @@ import { kycService } from "@/services/Auth/kycService";
 import { KycDocument } from "@/types/Auth/kycTypes";
 import { KycValidationSchema } from "@/validations/Auth/kycSchema";
 
-// Document type options
 const DOCUMENT_TYPE_OPTIONS = [
   { label: "Aadhar Card", value: "aadhar_card" },
   { label: "Passport", value: "passport" },
@@ -122,17 +121,18 @@ export default function KycForm({ onSuccess, onClose }: KycFormProps) {
           </div>
 
           {/* Document Expiry Date  */}
-          {formik.values.document_type !== "aadhar_card" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <FormInputField
-                name="document_expiry_date"
-                label="Document Expiry Date "
-                type="date"
-                placeholder="Select expiry date"
-                required
-              />
-            </div>
-          )}
+          {formik.values.document_type !== "aadhar_card" &&
+            formik.values.document_type !== "pan_card" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <FormInputField
+                  name="document_expiry_date"
+                  label="Document Expiry Date "
+                  type="date"
+                  placeholder="Select expiry date"
+                  required
+                />
+              </div>
+            )}
 
           {/* File Upload Section */}
           <div className="space-y-6">
@@ -182,6 +182,7 @@ export default function KycForm({ onSuccess, onClose }: KycFormProps) {
                   label="Selfie with Document "
                   type="file"
                   accept="image/jpeg,image/png,image/jpg"
+                  required
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   Optional: Upload a selfie holding your document. Helps with
@@ -208,8 +209,8 @@ export default function KycForm({ onSuccess, onClose }: KycFormProps) {
             <Button
               type="submit"
               variant="primary"
-              className="w-full sm:w-auto"
-              disabled={formik.isSubmitting || !formik.dirty}
+              className="w-full sm:w-auto "
+              disabled={formik.isSubmitting || !formik.dirty || !formik.isValid}
             >
               {formik.isSubmitting ? "Submitting..." : "Submit"}
             </Button>

@@ -256,33 +256,51 @@ const FormInputField: React.FC<FormInputFieldProps> = ({
           }`}
         />
       ) : type === "select" ? (
-        <Select
-          instanceId={`select-${field.name}`}
+        // <Select
+        //   instanceId={`select-${field.name}`}
+        //   name={field.name}
+        //   options={options}
+        //   value={options.find((opt) => opt.value === field.value) || null}
+        //   onChange={(selected) =>
+        //     helpers.setValue(selected ? selected.value : "")
+        //   }
+        //   onBlur={() => helpers.setTouched(true)}
+        //   isDisabled={readonly} // <-- key
+        //   className="react-select-container capitalize"
+        //   classNamePrefix="react-select"
+        //   placeholder={placeholder || "Select..."}
+        //   isSearchable={!readonly}
+        //   styles={{
+        //     control: (provided) => ({
+        //       ...provided,
+        //       backgroundColor: readonly ? "#f9fafb" : provided.backgroundColor,
+        //       cursor: readonly ? "cursor-not-allowed" : "default",
+        //       opacity: readonly ? 0.9 : 1,
+        //     }),
+        //     menu: (provided) => ({
+        //       ...provided,
+        //       zIndex: 9999,
+        //     }),
+        //   }}
+        // />
+        <select
+          id={field.name}
           name={field.name}
-          options={options}
-          value={options.find((opt) => opt.value === field.value) || null}
-          onChange={(selected) =>
-            helpers.setValue(selected ? selected.value : "")
-          }
-          onBlur={() => helpers.setTouched(true)}
-          isDisabled={readonly} // <-- key
-          className="react-select-container capitalize"
-          classNamePrefix="react-select"
-          placeholder={placeholder || "Select..."}
-          isSearchable={!readonly}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              backgroundColor: readonly ? "#f9fafb" : provided.backgroundColor,
-              cursor: readonly ? "cursor-not-allowed" : "default",
-              opacity: readonly ? 0.9 : 1,
-            }),
-            menu: (provided) => ({
-              ...provided,
-              zIndex: 9999,
-            }),
-          }}
-        />
+          value={field.value ?? ""}
+          onChange={(e) => helpers.setValue(e.target.value)}
+          onBlur={field.onBlur}
+          disabled={disabled || readonly}
+          className={`w-full disabled:cursor-not-allowed disabled:opacity-50 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-2 capitalize ${
+            readonly ? "bg-gray-100 cursor-not-allowed" : ""
+          }`}
+        >
+          <option value="">{placeholder || "Select..."}</option>
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
       ) : type === "multiselect" ? (
         <Select
           isMulti
