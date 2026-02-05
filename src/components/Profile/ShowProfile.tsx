@@ -172,7 +172,7 @@ const ShowProfile: React.FC<ShowProfileProps> = ({ userData }) => {
                 </div>
                 <div className="flex items-center">
                   <code className="bg-white px-3 py-2 rounded border text-sm text-gray-800 font-mono break-all">
-                    {window.location.origin}
+                    {/* {window.location.origin} */}
                     {userData.referral_link}
                   </code>
                   <button
