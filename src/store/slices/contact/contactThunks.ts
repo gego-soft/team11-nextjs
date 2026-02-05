@@ -15,7 +15,9 @@ export const getContactInfo = createAsyncThunk<
     }
 
     return res.data.data;
-  } catch (error: any) {
-    return rejectWithValue(error.message || "Failed to fetch contact info");
+  } catch (error: unknown) {
+    return rejectWithValue(
+      error instanceof Error ? error.message : "Failed to fetch contact info",
+    );
   }
 });

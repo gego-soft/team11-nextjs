@@ -1,6 +1,6 @@
 export default function BallLoader() {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="flex flex-col justify-center items-center">
       <svg width="120" height="120" viewBox="0 0 120 120">
         <style>
           {`
